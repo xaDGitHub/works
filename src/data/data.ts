@@ -1,3 +1,4 @@
+// data.ts
 export type ImageItem = { order?: number; file: string; title?: string };
 export type ProjectItem = { order?: number; displayName?: string; images: ImageItem[] };
 
@@ -52,15 +53,34 @@ export const PORTFOLIO: { projects: Record<string, ProjectItem> } = {
   }
 };
 
+// 保留显式排序；未提供 order 时按原始顺序
 export function sortProjects(entries: [string, ProjectItem][]) {
   return entries
     .map(([k, v], i) => [k, { ...v, __idx: i }] as [string, ProjectItem & { __idx: number }])
-    .sort((a, b) => (a[1].order ?? a[1].__idx) - (b[1].order ?? b[1].__idx));
+    .sort((a, b) => {
+      const ao = a[1].order ?? Number.MAX_SAFE_INTEGER;
+      const bo = b[1].order ?? Number.MAX_SAFE_INTEGER;
+      return ao === bo ? a[1].__idx - b[1].__idx : ao - bo;
+    })
+    .map(([k, v]) => [k, v] as [string, ProjectItem]);
 }
+
 export function sortImages(images: ImageItem[]) {
-  return images.map((im, i) => ({ ...im, __idx: i })).sort((x, y) => (x.order ?? x.__idx) - (y.order ?? y.__idx));
+  return images
+    .map((im, i) => ({ ...im, __idx: i }))
+    .sort((x, y) => {
+      const xo = x.order ?? Number.MAX_SAFE_INTEGER;
+      const yo = y.order ?? Number.MAX_SAFE_INTEGER;
+      return xo === yo ? x.__idx - y.__idx : xo - yo;
+    })
+    .map(({ __idx, ...rest }) => rest);
 }
+
+// 关键修复：用 BASE_URL 适配子路径部署，并清理可能的前导斜杠
 export function assetUrl(projectKey: string, file: string) {
-  // 使用 public 目录：生产构建后路径仍有效
-  return `/assets/${projectKey}/${file}`;
+  const base = import.meta.env.BASE_URL || '/'; // dev: '/', prod: '/works/'
+  const clean = (s: string) => s.replace(/^\/+/, '');
+  // 如果文件名可能包含空格或中文，建议只对文件名做编码
+  const encodedFile = encodeURIComponent(clean(file));
+  return `${base}assets/${clean(projectKey)}/${encodedFile}`;
 }
