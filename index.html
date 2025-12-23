@@ -5,138 +5,108 @@
   <title>作品集 | xaDGitHub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    :root {
-      --bg: #0f1216;
-      --card: #141a21;
-      --text: #e8edf2;
-      --muted: #9aa7b1;
-      --accent: #5ac8fa;
-      --accent2: #7ee787;
-      --border: #24303a;
-    }
+    :root { --bg:#0f1216; --card:#141a21; --text:#e8edf2; --muted:#9aa7b1; --accent:#5ac8fa; --border:#24303a; }
     * { box-sizing: border-box; }
     body {
-      margin: 0;
+      margin: 0; color: var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Helvetica, Arial;
       background: radial-gradient(1200px 600px at 20% -10%, #1b2230 0%, var(--bg) 40%) no-repeat, var(--bg);
-      color: var(--text);
     }
-    header {
-      max-width: 1200px; margin: 40px auto 24px; padding: 0 20px;
-    }
-    h1 { margin: 0 0 8px; font-size: 28px; letter-spacing: .5px; }
+    header { max-width: 1200px; margin: 40px auto 24px; padding: 0 20px; }
+    h1 { margin: 0 0 8px; font-size: 28px; }
     .sub { color: var(--muted); font-size: 14px; }
-    .toolbar { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
-    .btn {
-      background: linear-gradient(180deg, #1b2330, var(--card));
-      border: 1px solid var(--border);
-      color: var(--text); border-radius: 10px; padding: 10px 14px;
-      font-size: 14px; cursor: pointer;
-    }
-    .btn:hover { border-color: #334355; }
+    .toolbar { display:flex; gap:8px; align-items:center; margin-top:12px; }
+    .btn { background: linear-gradient(180deg, #1b2330, var(--card)); border:1px solid var(--border); color:var(--text);
+      border-radius:10px; padding:10px 14px; font-size:14px; cursor:pointer; text-decoration:none; }
+    .btn:hover { border-color:#334355; }
 
-    .grid {
-      max-width: 1200px; margin: 12px auto 40px; padding: 0 20px;
-      display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 16px;
-    }
+    .grid { max-width:1200px; margin:12px auto 40px; padding:0 20px; display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px; }
     .card {
-      position: relative; overflow: hidden; border-radius: 16px;
+      position:relative; overflow:hidden; border-radius:16px;
       background: linear-gradient(180deg, #18202a, var(--card));
-      border: 1px solid var(--border);
-      box-shadow: 0 8px 24px rgba(0,0,0,.25);
-      transition: transform .2s ease, border-color .2s ease;
-      cursor: pointer;
-      min-height: 160px;
+      border:1px solid var(--border); box-shadow:0 8px 24px rgba(0,0,0,.25);
+      transition: transform .2s ease, border-color .2s ease; cursor:pointer; min-height:160px;
     }
-    .card:hover { transform: translateY(-2px); border-color: #38506a; }
-    .card .name {
-      position: absolute; left: 14px; bottom: 14px; right: 14px;
-      font-weight: 600; font-size: 16px;
-    }
-    .card .meta {
-      position: absolute; left: 14px; top: 12px; font-size: 12px; color: var(--muted);
-    }
+    .card:hover { transform: translateY(-2px); border-color:#38506a; }
+    .card .name { position:absolute; left:14px; bottom:14px; right:14px; font-weight:600; font-size:16px; }
+    .card .meta { position:absolute; left:14px; top:12px; font-size:12px; color:var(--muted); }
 
-    /* Gallery */
-    .gallery {
-      max-width: 1200px; margin: 12px auto 60px; padding: 0 20px;
-    }
-    .breadcrumbs {
-      display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14px; margin-bottom: 12px;
-    }
-    .breadcrumbs a { color: var(--accent); text-decoration: none; }
-    .folder-title { font-size: 20px; font-weight: 700; margin: 8px 0 16px; }
-    .thumbs {
-      display: grid; grid-template-columns: repeat(auto-fill,minmax(200px,1fr)); gap: 12px;
-    }
-    .thumb {
-      position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);
-      background: #0c0f14; cursor: pointer;
-    }
-    .thumb img, .thumb .pdf {
-      width: 100%; height: 160px; object-fit: cover; display: block;
-      background: #0c0f14;
-    }
-    .thumb .label {
-      position: absolute; left: 8px; bottom: 8px; right: 8px; font-size: 12px; color: var(--muted);
-      text-shadow: 0 1px 4px rgba(0,0,0,.6);
-    }
-    .thumb:hover { border-color: #3a5068; }
+    .gallery { max-width:1200px; margin:12px auto 60px; padding:0 20px; }
+    .breadcrumbs { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:14px; margin-bottom:12px; }
+    .breadcrumbs a { color:#5ac8fa; text-decoration:none; }
+    .folder-title { font-size:20px; font-weight:700; margin:8px 0 16px; }
+    .thumbs { display:grid; grid-template-columns: repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
+    .thumb { position:relative; border-radius:12px; overflow:hidden; border:1px solid var(--border); background:#0c0f14; cursor:pointer; }
+    .thumb img { width:100%; height:160px; object-fit:cover; display:block; background:#0c0f14; }
+    .thumb .label { position:absolute; left:8px; bottom:8px; right:8px; font-size:12px; color:var(--muted); text-shadow:0 1px 4px rgba(0,0,0,.6); }
+    .thumb:hover { border-color:#3a5068; }
+    .empty { color:var(--muted); padding:20px; border:1px dashed var(--border); border-radius:12px; background:#11161d; }
 
-    /* Lightbox */
-    .lightbox {
-      position: fixed; inset: 0; background: rgba(0,0,0,.8);
-      display: none; align-items: center; justify-content: center; z-index: 1000;
+    /* Lightbox with zoom/pan */
+    .lightbox { position:fixed; inset:0; background:rgba(0,0,0,.92); display:none; z-index:1000; }
+    .lightbox.open { display:block; }
+    .lb-toolbar {
+      position:fixed; top:16px; left:50%; transform:translateX(-50%);
+      display:flex; gap:8px; background:rgba(20,24,30,.72);
+      border:1px solid var(--border); border-radius:12px; padding:6px; backdrop-filter: blur(6px);
     }
-    .lightbox.open { display: flex; }
-    .lightbox img {
-      max-width: 94vw; max-height: 94vh; border-radius: 10px; box-shadow: 0 12px 36px rgba(0,0,0,.45);
+    .lb-btn { background:transparent; color:#e8edf2; border:1px solid var(--border); border-radius:8px; padding:8px 10px; cursor:pointer; font-size:14px; }
+    .lb-btn:hover { border-color:#3a5068; }
+    .lb-stage {
+      position:absolute; inset:0; display:flex; align-items:center; justify-content:center; overflow:hidden; cursor:grab;
     }
-    .lightbox .close {
-      position: fixed; top: 16px; right: 16px; background: rgba(20,24,30,.8);
-      color: var(--text); border: 1px solid var(--border); padding: 10px 12px; border-radius: 10px; cursor: pointer;
-    }
-    .empty { color: var(--muted); padding: 20px; border: 1px dashed var(--border); border-radius: 12px; background: #11161d; }
-    .notice { color: var(--muted); font-size: 13px; margin-top: 10px; }
-    .link { color: var(--accent2); text-decoration: none; }
+    .lb-stage.grabbing { cursor:grabbing; }
+    .lb-img { will-change: transform; user-select:none; -webkit-user-drag:none; transform-origin: 0 0; }
+    .lb-hint { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); color:#c8d1d9; font-size:12px; opacity:.85; }
   </style>
 </head>
 <body>
   <header>
     <h1>我的前端作品集</h1>
-    <div class="sub">点击各作品文件夹查看预览，图片支持全屏铺满查看。</div>
+    <div class="sub">点击各作品文件夹查看预览，图片支持放大缩小与拖拽移动。</div>
     <div class="toolbar">
       <button class="btn" id="backBtn" style="display:none">← 返回文件夹列表</button>
-      <a class="btn link" target="_blank" href="https://cdn.jsdelivr.net/gh/xaDGitHub/works@main/">通过 jsDelivr 加速</a>
-      <a class="btn link" target="_blank" href="https://github.com/xaDGitHub/works">仓库</a>
+      <a class="btn" target="_blank" href="https://github.com/xaDGitHub/works">仓库</a>
     </div>
   </header>
 
-  <!-- 文件夹栅格 -->
   <section id="folderGrid" class="grid" aria-live="polite"></section>
 
-  <!-- 作品预览 -->
   <section id="gallery" class="gallery" style="display:none">
     <div class="breadcrumbs"><a href="#" id="crumbHome">首页</a> / <span id="crumbFolder"></span></div>
     <div class="folder-title" id="galleryTitle"></div>
     <div class="thumbs" id="thumbs"></div>
-    <div class="notice">图片使用 jsDelivr CDN 加速；PDF 将在新窗口打开。</div>
   </section>
 
-  <!-- 全屏灯箱 -->
+  <!-- Lightbox -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
-    <button class="close" id="closeLightbox">✕ 关闭</button>
-    <img id="lightboxImg" alt="预览"/>
+    <div class="lb-toolbar">
+      <button class="lb-btn" id="btnZoomIn">＋ 放大</button>
+      <button class="lb-btn" id="btnZoomOut">－ 缩小</button>
+      <button class="lb-btn" id="btnFit">适配屏幕</button>
+      <button class="lb-btn" id="btn100">100%</button>
+      <button class="lb-btn" id="btnClose">关闭</button>
+    </div>
+    <div class="lb-stage" id="lbStage">
+      <img id="lbImg" class="lb-img" alt="预览图"/>
+    </div>
+    <div class="lb-hint">提示：滚轮缩放，按住拖动，双击切换适配/100%，Esc 关闭</div>
   </div>
 
 <script>
 (function(){
   const owner = 'xaDGitHub';
   const repo  = 'works';
-  const branch = 'main'; // 如你的默认分支是 master，请改为 'master'
+  const branch = 'main'; // 若默认分支是 master，请改为 'master'
 
   const apiBase = `https://api.github.com/repos/${owner}/${repo}/contents`;
   const cdnBase = `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${branch}`;
+
+  // 缩略图代理（加速缩略图加载）
+  function thumbUrl(rawUrl, w=400) {
+    const enc = encodeURIComponent(rawUrl);
+    return `https://images.weserv.nl/?url=${enc}&w=${w}&q=85&il`;
+  }
 
   const folderGrid = document.getElementById('folderGrid');
   const gallery = document.getElementById('gallery');
@@ -147,24 +117,18 @@
   const crumbHome = document.getElementById('crumbHome');
 
   const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightboxImg');
-  const closeLightbox = document.getElementById('closeLightbox');
+  const lbStage = document.getElementById('lbStage');
+  const lbImg = document.getElementById('lbImg');
+  const btnClose = document.getElementById('btnClose');
+  const btnZoomIn = document.getElementById('btnZoomIn');
+  const btnZoomOut = document.getElementById('btnZoomOut');
+  const btnFit = document.getElementById('btnFit');
+  const btn100 = document.getElementById('btn100');
 
   const IMG_EXT = ['.jpg','.jpeg','.png','.webp','.gif','.avif'];
-  const PDF_EXT = ['.pdf'];
-
-  function extOf(name) {
-    const i = name.lastIndexOf('.');
-    return i >= 0 ? name.slice(i).toLowerCase() : '';
-  }
-  function isImg(name) { return IMG_EXT.includes(extOf(name)); }
-  function isPdf(name) { return PDF_EXT.includes(extOf(name)); }
-
-  function cdnUrl(path) {
-    // 移除开头的斜杠，拼成 jsDelivr 链接
-    const clean = path.replace(/^\/+/, '');
-    return `${cdnBase}/${clean}`;
-  }
+  function extOf(name){ const i=name.lastIndexOf('.'); return i>=0?name.slice(i).toLowerCase():''; }
+  function isImg(name){ return IMG_EXT.includes(extOf(name)); }
+  function cdnUrl(path){ const clean = path.replace(/^\/+/, ''); return `${cdnBase}/${clean}`; }
 
   async function fetchJSON(url) {
     const res = await fetch(url, { headers: { 'Accept':'application/vnd.github+json' } });
@@ -172,16 +136,14 @@
     return res.json();
   }
 
-  // 1) 加载仓库根目录，列出文件夹
   async function loadFolders() {
     folderGrid.innerHTML = '';
     gallery.style.display = 'none';
     backBtn.style.display = 'none';
-
     try {
       const items = await fetchJSON(apiBase);
       const dirs = items.filter(x => x.type === 'dir');
-      if (dirs.length === 0) {
+      if (!dirs.length) {
         folderGrid.innerHTML = `<div class="empty">根目录未检测到文件夹，请在仓库根目录创建作品文件夹。</div>`;
         return;
       }
@@ -190,101 +152,209 @@
         card.className = 'card';
         card.setAttribute('role','button');
         card.setAttribute('aria-label', `打开 ${d.name} 文件夹`);
-        card.innerHTML = `
-          <div class="meta">文件夹</div>
-          <div class="name">${d.name}</div>
-        `;
+        card.innerHTML = `<div class="meta">文件夹</div><div class="name">${d.name}</div>`;
         card.addEventListener('click', () => openFolder(d.path, d.name));
         folderGrid.appendChild(card);
       });
-    } catch (e) {
+    } catch(e) {
       folderGrid.innerHTML = `<div class="empty">加载文件夹失败：${e.message}</div>`;
     }
   }
 
-  // 2) 打开某文件夹，列出图片/PDF缩略
   async function openFolder(path, name) {
-    folderGrid.innerHTML = '';
     gallery.style.display = 'block';
     backBtn.style.display = 'inline-block';
     galleryTitle.textContent = name;
     crumbFolder.textContent = name;
     thumbs.innerHTML = '';
-
     try {
       const children = await fetchJSON(`${apiBase}/${encodeURIComponent(name)}`);
-      const assets = children.filter(x => x.type === 'file' && (isImg(x.name) || isPdf(x.name)));
-
-      if (assets.length === 0) {
-        thumbs.innerHTML = `<div class="empty">该文件夹内未检测到图片或 PDF 文件。</div>`;
+      const assets = children.filter(x => x.type === 'file' && isImg(x.name));
+      if (!assets.length) {
+        thumbs.innerHTML = `<div class="empty">该文件夹内未检测到图片文件。</div>`;
         return;
       }
-
       assets.forEach(file => {
         const card = document.createElement('div');
         card.className = 'thumb';
-
-        if (isImg(file.name)) {
-          const img = document.createElement('img');
-          img.loading = 'lazy';
-          img.alt = file.name;
-          img.src = cdnUrl(file.path);
-          img.addEventListener('click', () => openLightbox(img.src, file.name));
-          card.appendChild(img);
-        } else if (isPdf(file.name)) {
-          const pdfBox = document.createElement('div');
-          pdfBox.className = 'pdf';
-          pdfBox.style.display = 'grid';
-          pdfBox.style.placeItems = 'center';
-          pdfBox.style.background = 'linear-gradient(180deg,#18202a,#0c0f14)';
-          pdfBox.innerHTML = `
-            <div style="text-align:center">
-              <div style="font-size:48px; line-height:1; color:#ff7b72">📄</div>
-              <div style="margin-top:6px; color:#cdd9e5; font-size:13px">PDF 文档</div>
-            </div>
-          `;
-          pdfBox.addEventListener('click', () => {
-            window.open(cdnUrl(file.path), '_blank', 'noopener');
-          });
-          card.appendChild(pdfBox);
-        }
-
+        const full = cdnUrl(file.path);
+        const img = document.createElement('img');
+        img.loading = 'lazy';
+        img.alt = file.name;
+        img.src = thumbUrl(full, 400);
+        img.srcset = `${thumbUrl(full, 300)} 300w, ${thumbUrl(full, 600)} 600w, ${thumbUrl(full, 900)} 900w`;
+        img.sizes = "(max-width: 600px) 45vw, 200px";
+        img.dataset.full = full;
+        img.addEventListener('click', () => openLightbox(img.dataset.full, file.name));
         const label = document.createElement('div');
         label.className = 'label';
         label.textContent = file.name;
-        card.appendChild(label);
-
+        card.appendChild(img); card.appendChild(label);
         thumbs.appendChild(card);
       });
-
-    } catch (e) {
+    } catch(e) {
       thumbs.innerHTML = `<div class="empty">加载作品失败：${e.message}</div>`;
     }
   }
 
-  // 3) 灯箱全屏
-  function openLightbox(src, alt) {
-    lightboxImg.src = src;
-    lightboxImg.alt = alt || '预览';
-    lightbox.classList.add('open');
+  // Lightbox with zoom/pan
+  let state = {
+    imgW: 0, imgH: 0,
+    stageW: 0, stageH: 0,
+    scale: 1, fitScale: 1, tx: 0, ty: 0,
+    minScale: 0.25, maxScale: 8
+  };
+  function applyTransform() {
+    lbImg.style.transform = `translate3d(${state.tx}px, ${state.ty}px, 0) scale(${state.scale})`;
   }
-  function closeBox() {
+  function computeFitScale() {
+    const sW = lbStage.clientWidth, sH = lbStage.clientHeight;
+    state.stageW = sW; state.stageH = sH;
+    if (!state.imgW || !state.imgH) return 1;
+    return Math.min(sW / state.imgW, sH / state.imgH);
+  }
+  function centerAtScale(scale) {
+    const x = (state.stageW - state.imgW * scale) / 2;
+    const y = (state.stageH - state.imgH * scale) / 2;
+    state.tx = x; state.ty = y;
+  }
+  function clampScale(sc) {
+    const min = state.fitScale * state.minScale;
+    const max = Math.max(state.fitScale * state.maxScale, 1.0);
+    return Math.min(max, Math.max(min, sc));
+  }
+  function openLightbox(src, alt) {
+    lbImg.src = src;
+    lbImg.alt = alt || '预览图';
+    lightbox.classList.add('open');
+    // 等图片加载后计算适配缩放
+    lbImg.onload = () => {
+      state.imgW = lbImg.naturalWidth; state.imgH = lbImg.naturalHeight;
+      state.fitScale = computeFitScale();
+      state.scale = state.fitScale;
+      centerAtScale(state.scale);
+      applyTransform();
+    };
+  }
+  function closeLightbox() {
     lightbox.classList.remove('open');
-    lightboxImg.src = '';
+    lbImg.src = '';
   }
 
-  // 事件
+  // 轮滚缩放（以鼠标位置为中心）
+  lbStage.addEventListener('wheel', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    e.preventDefault();
+    const rect = lbStage.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left - state.tx;
+    const mouseY = e.clientY - rect.top - state.ty;
+    const delta = -e.deltaY; // 向上滚放大
+    const factor = Math.exp(delta * 0.0015); // 平滑缩放
+    const newScale = clampScale(state.scale * factor);
+    const ratio = newScale / state.scale;
+    // 以鼠标位置为缩放中心修正平移
+    state.tx = e.clientX - rect.left - mouseX * ratio;
+    state.ty = e.clientY - rect.top - mouseY * ratio;
+    state.scale = newScale;
+    applyTransform();
+  }, { passive:false });
+
+  // 拖拽平移
+  let dragging = false, lastX=0, lastY=0;
+  lbStage.addEventListener('mousedown', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    dragging = true; lastX = e.clientX; lastY = e.clientY;
+    lbStage.classList.add('grabbing');
+  });
+  window.addEventListener('mousemove', (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - lastX, dy = e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY;
+    state.tx += dx; state.ty += dy;
+    applyTransform();
+  });
+  window.addEventListener('mouseup', () => { dragging = false; lbStage.classList.remove('grabbing'); });
+
+  // 移动端触控支持：单指拖拽、双指缩放
+  let touchMode = { active:false, startDist:0, startScale:1, startTx:0, startTy:0, midX:0, midY:0 };
+  function dist(p1, p2){ const dx=p1.clientX-p2.clientX, dy=p1.clientY-p2.clientY; return Math.hypot(dx,dy); }
+  function mid(p1, p2){ return { x:(p1.clientX+p2.clientX)/2, y:(p1.clientY+p2.clientY)/2 }; }
+  lbStage.addEventListener('touchstart', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.touches.length===1){ dragging=true; lastX=e.touches[0].clientX; lastY=e.touches[0].clientY; }
+    if (e.touches.length===2){
+      touchMode.active=true;
+      const d = dist(e.touches[0], e.touches[1]);
+      const m = mid(e.touches[0], e.touches[1]);
+      const rect = lbStage.getBoundingClientRect();
+      touchMode.startDist=d; touchMode.startScale=state.scale; touchMode.startTx=state.tx; touchMode.startTy=state.ty;
+      touchMode.midX = m.x - rect.left; touchMode.midY = m.y - rect.top;
+    }
+  }, {passive:false});
+  lbStage.addEventListener('touchmove', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    e.preventDefault();
+    if (e.touches.length===1 && dragging){
+      const t=e.touches[0]; const dx=t.clientX-lastX, dy=t.clientY-lastY; lastX=t.clientX; lastY=t.clientY;
+      state.tx += dx; state.ty += dy; applyTransform();
+    }
+    if (e.touches.length===2 && touchMode.active){
+      const d = dist(e.touches[0], e.touches[1]);
+      const rect = lbStage.getBoundingClientRect();
+      const m = mid(e.touches[0], e.touches[1]);
+      let ns = clampScale(touchMode.startScale * (d / touchMode.startDist));
+      // 以两指中点为中心缩放
+      const preX = touchMode.midX - state.tx, preY = touchMode.midY - state.ty;
+      const ratio = ns / state.scale;
+      state.scale = ns;
+      state.tx = m.x - rect.left - preX * ratio;
+      state.ty = m.y - rect.top - preY * ratio;
+      applyTransform();
+    }
+  }, {passive:false});
+  lbStage.addEventListener('touchend', ()=>{ dragging=false; touchMode.active=false; }, {passive:true});
+
+  // 双击切换 适配/100%
+  lbStage.addEventListener('dblclick', () => {
+    const target = Math.abs(state.scale - state.fitScale) < 0.01 ? 1 : state.fitScale;
+    state.scale = clampScale(target);
+    centerAtScale(state.scale);
+    applyTransform();
+  });
+
+  // 控制按钮
+  btnClose.addEventListener('click', closeLightbox);
+  btnFit.addEventListener('click', () => {
+    state.fitScale = computeFitScale();
+    state.scale = state.fitScale; centerAtScale(state.scale); applyTransform();
+  });
+  btn100.addEventListener('click', () => {
+    state.scale = clampScale(1); centerAtScale(state.scale); applyTransform();
+  });
+  btnZoomIn.addEventListener('click', () => {
+    state.scale = clampScale(state.scale * 1.2); applyTransform();
+  });
+  btnZoomOut.addEventListener('click', () => {
+    state.scale = clampScale(state.scale / 1.2); applyTransform();
+  });
+
+  // Esc 关闭、窗口尺寸变化重新适配
+  document.addEventListener('keydown', (e)=>{ if (e.key==='Escape') closeLightbox(); });
+  window.addEventListener('resize', () => {
+    if (!lightbox.classList.contains('open')) return;
+    const prevFit = state.fitScale;
+    state.fitScale = computeFitScale();
+    // 如果当前是“适配状态”，跟随调整；否则保持当前缩放并尝试居中不变
+    if (Math.abs(state.scale - prevFit) < 0.01) {
+      state.scale = state.fitScale; centerAtScale(state.scale); applyTransform();
+    }
+  });
+
+  // 顶部导航
   backBtn.addEventListener('click', loadFolders);
   crumbHome.addEventListener('click', (e)=>{ e.preventDefault(); loadFolders(); });
-  closeLightbox.addEventListener('click', closeBox);
-  lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) closeBox();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeBox();
-  });
 
-  // 启动
+  // 初始化
   loadFolders();
 })();
 </script>
