@@ -46,18 +46,29 @@
     .lightbox { position:fixed; inset:0; background:rgba(0,0,0,.92); display:none; z-index:1000; }
     .lightbox.open { display:block; }
     .lb-toolbar {
-      position:fixed; top:16px; left:50%; transform:translateX(-50%);
-      display:flex; gap:8px; background:rgba(20,24,30,.72);
-      border:1px solid var(--border); border-radius:12px; padding:6px; backdrop-filter: blur(6px);
+      position:fixed; top:12px; left:50%; transform:translateX(-50%);
+      display:flex; gap:8px; background:rgba(20,24,30,.78);
+      border:1px solid var(--border); border-radius:12px; padding:6px;
+      backdrop-filter: blur(6px);
+      z-index: 1002; /* 高于舞台和图片 */
+      pointer-events: auto;
     }
     .lb-btn { background:transparent; color:#e8edf2; border:1px solid var(--border); border-radius:8px; padding:8px 10px; cursor:pointer; font-size:14px; }
     .lb-btn:hover { border-color:#3a5068; }
+
+    /* 舞台避开工具栏高度，防止遮挡和错误适配 */
     .lb-stage {
-      position:absolute; inset:0; display:flex; align-items:center; justify-content:center; overflow:hidden; cursor:grab;
+      position:absolute; left:0; right:0; bottom:0; top:64px; /* 工具栏约52px+间距，留64px安全区 */
+      display:flex; align-items:center; justify-content:center; overflow:hidden; cursor:grab;
+      z-index: 1001; /* 低于工具栏 */
     }
     .lb-stage.grabbing { cursor:grabbing; }
-    .lb-img { will-change: transform; user-select:none; -webkit-user-drag:none; transform-origin: 0 0; }
-    .lb-hint { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); color:#c8d1d9; font-size:12px; opacity:.85; }
+    .lb-img {
+      will-change: transform; user-select:none; -webkit-user-drag:none;
+      transform-origin: 0 0; /* 使用左上原点 + 平移，避免某些浏览器中心原点抖动 */
+      display:block; max-width:none; max-height:none; /* 避免浏览器对大图做额外限制 */
+    }
+    .lb-hint { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); color:#c8d1d9; font-size:12px; opacity:.85; z-index:1002; }
   </style>
 </head>
 <body>
@@ -102,7 +113,7 @@
   const apiBase = `https://api.github.com/repos/${owner}/${repo}/contents`;
   const cdnBase = `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${branch}`;
 
-  // 缩略图代理（加速缩略图加载）
+  // 缩略图代理（更快）
   function thumbUrl(rawUrl, w=400) {
     const enc = encodeURIComponent(rawUrl);
     return `https://images.weserv.nl/?url=${enc}&w=${w}&q=85&il`;
@@ -197,7 +208,7 @@
     }
   }
 
-  // Lightbox with zoom/pan
+  // Lightbox state
   let state = {
     imgW: 0, imgH: 0,
     stageW: 0, stageH: 0,
@@ -207,59 +218,84 @@
   function applyTransform() {
     lbImg.style.transform = `translate3d(${state.tx}px, ${state.ty}px, 0) scale(${state.scale})`;
   }
+  function computeStageWH() {
+    state.stageW = lbStage.clientWidth;
+    state.stageH = lbStage.clientHeight; // 已避开工具栏高度
+  }
   function computeFitScale() {
-    const sW = lbStage.clientWidth, sH = lbStage.clientHeight;
-    state.stageW = sW; state.stageH = sH;
+    computeStageWH();
     if (!state.imgW || !state.imgH) return 1;
-    return Math.min(sW / state.imgW, sH / state.imgH);
+    return Math.min(state.stageW / state.imgW, state.stageH / state.imgH);
   }
   function centerAtScale(scale) {
-    const x = (state.stageW - state.imgW * scale) / 2;
-    const y = (state.stageH - state.imgH * scale) / 2;
-    state.tx = x; state.ty = y;
+    computeStageWH();
+    state.tx = (state.stageW - state.imgW * scale) / 2;
+    state.ty = (state.stageH - state.imgH * scale) / 2;
   }
   function clampScale(sc) {
     const min = state.fitScale * state.minScale;
     const max = Math.max(state.fitScale * state.maxScale, 1.0);
     return Math.min(max, Math.max(min, sc));
   }
+
   function openLightbox(src, alt) {
-    lbImg.src = src;
-    lbImg.alt = alt || '预览图';
     lightbox.classList.add('open');
-    // 等图片加载后计算适配缩放
-    lbImg.onload = () => {
-      state.imgW = lbImg.naturalWidth; state.imgH = lbImg.naturalHeight;
-      state.fitScale = computeFitScale();
-      state.scale = state.fitScale;
-      centerAtScale(state.scale);
-      applyTransform();
-    };
+    // 先清零，避免上一次状态影响
+    state = { imgW:0,imgH:0,stageW:0,stageH:0,scale:1,fitScale:1,tx:0,ty:0,minScale:0.25,maxScale:8 };
+    lbImg.style.transform = 'none';
+    lbImg.src = ''; // 先清空，随后设置
+    lbImg.alt = alt || '预览图';
+
+    // 先等待容器布局完成，再加载图片，避免长图适配错误
+    requestAnimationFrame(() => {
+      lbImg.src = src;
+      // 使用 decode() 确保图片像素尺寸可用
+      if ('decode' in lbImg) {
+        lbImg.decode().then(initImage).catch(() => lbImg.onload = initImage);
+      } else {
+        lbImg.onload = initImage;
+      }
+      lbImg.onerror = () => {
+        // 兜底提示
+        alert('图片加载失败，请稍后重试。');
+        closeLightbox();
+      };
+    });
   }
+
+  function initImage() {
+    state.imgW = lbImg.naturalWidth;
+    state.imgH = lbImg.naturalHeight;
+    // 对极长图/极宽图都正常适配
+    state.fitScale = computeFitScale();
+    state.scale = state.fitScale;
+    centerAtScale(state.scale);
+    applyTransform();
+  }
+
   function closeLightbox() {
     lightbox.classList.remove('open');
     lbImg.src = '';
   }
 
-  // 轮滚缩放（以鼠标位置为中心）
+  // 缩放（以鼠标位置为中心）
   lbStage.addEventListener('wheel', (e) => {
     if (!lightbox.classList.contains('open')) return;
     e.preventDefault();
     const rect = lbStage.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left - state.tx;
-    const mouseY = e.clientY - rect.top - state.ty;
-    const delta = -e.deltaY; // 向上滚放大
-    const factor = Math.exp(delta * 0.0015); // 平滑缩放
+    const mx = e.clientX - rect.left - state.tx;
+    const my = e.clientY - rect.top  - state.ty;
+    const delta = -e.deltaY;
+    const factor = Math.exp(delta * 0.0015);
     const newScale = clampScale(state.scale * factor);
     const ratio = newScale / state.scale;
-    // 以鼠标位置为缩放中心修正平移
-    state.tx = e.clientX - rect.left - mouseX * ratio;
-    state.ty = e.clientY - rect.top - mouseY * ratio;
+    state.tx = e.clientX - rect.left - mx * ratio;
+    state.ty = e.clientY - rect.top  - my * ratio;
     state.scale = newScale;
     applyTransform();
   }, { passive:false });
 
-  // 拖拽平移
+  // 拖拽平移（鼠标）
   let dragging = false, lastX=0, lastY=0;
   lbStage.addEventListener('mousedown', (e) => {
     if (!lightbox.classList.contains('open')) return;
@@ -275,7 +311,7 @@
   });
   window.addEventListener('mouseup', () => { dragging = false; lbStage.classList.remove('grabbing'); });
 
-  // 移动端触控支持：单指拖拽、双指缩放
+  // 触控：单指拖拽、双指缩放
   let touchMode = { active:false, startDist:0, startScale:1, startTx:0, startTy:0, midX:0, midY:0 };
   function dist(p1, p2){ const dx=p1.clientX-p2.clientX, dy=p1.clientY-p2.clientY; return Math.hypot(dx,dy); }
   function mid(p1, p2){ return { x:(p1.clientX+p2.clientX)/2, y:(p1.clientY+p2.clientY)/2 }; }
@@ -303,12 +339,11 @@
       const rect = lbStage.getBoundingClientRect();
       const m = mid(e.touches[0], e.touches[1]);
       let ns = clampScale(touchMode.startScale * (d / touchMode.startDist));
-      // 以两指中点为中心缩放
       const preX = touchMode.midX - state.tx, preY = touchMode.midY - state.ty;
       const ratio = ns / state.scale;
       state.scale = ns;
       state.tx = m.x - rect.left - preX * ratio;
-      state.ty = m.y - rect.top - preY * ratio;
+      state.ty = m.y - rect.top  - preY * ratio;
       applyTransform();
     }
   }, {passive:false});
@@ -316,7 +351,8 @@
 
   // 双击切换 适配/100%
   lbStage.addEventListener('dblclick', () => {
-    const target = Math.abs(state.scale - state.fitScale) < 0.01 ? 1 : state.fitScale;
+    const targetIsFit = Math.abs(state.scale - state.fitScale) < 0.01;
+    const target = targetIsFit ? 1 : state.fitScale;
     state.scale = clampScale(target);
     centerAtScale(state.scale);
     applyTransform();
@@ -331,23 +367,19 @@
   btn100.addEventListener('click', () => {
     state.scale = clampScale(1); centerAtScale(state.scale); applyTransform();
   });
-  btnZoomIn.addEventListener('click', () => {
-    state.scale = clampScale(state.scale * 1.2); applyTransform();
-  });
-  btnZoomOut.addEventListener('click', () => {
-    state.scale = clampScale(state.scale / 1.2); applyTransform();
-  });
+  btnZoomIn.addEventListener('click', () => { state.scale = clampScale(state.scale * 1.2); applyTransform(); });
+  btnZoomOut.addEventListener('click', () => { state.scale = clampScale(state.scale / 1.2); applyTransform(); });
 
-  // Esc 关闭、窗口尺寸变化重新适配
+  // Esc 关闭、窗口变化重新适配
   document.addEventListener('keydown', (e)=>{ if (e.key==='Escape') closeLightbox(); });
   window.addEventListener('resize', () => {
     if (!lightbox.classList.contains('open')) return;
-    const prevFit = state.fitScale;
+    const wasFit = Math.abs(state.scale - state.fitScale) < 0.01;
     state.fitScale = computeFitScale();
-    // 如果当前是“适配状态”，跟随调整；否则保持当前缩放并尝试居中不变
-    if (Math.abs(state.scale - prevFit) < 0.01) {
-      state.scale = state.fitScale; centerAtScale(state.scale); applyTransform();
+    if (wasFit) {
+      state.scale = state.fitScale; centerAtScale(state.scale);
     }
+    applyTransform();
   });
 
   // 顶部导航
