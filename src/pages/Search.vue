@@ -1,16 +1,32 @@
+<!-- src/pages/Search.vue -->
 <template>
   <section class="section">
+    <!-- 新增：面包屑 -->
+    <nav class="breadcrumb enhanced">
+      <router-link to="/">主页</router-link>
+      <span class="sep">/</span>
+      <span class="current">搜索结果</span>
+    </nav>
+
     <div class="scene-header">
       <div class="scene-title">搜索：“{{ q }}” 的结果</div>
     </div>
-    <div v-if="!results.length" class="empty">未找到匹配图片</div>
+
+    <div v-if="!results.length" class="empty">
+      未找到匹配图片
+      <!-- 提供返回首页入口 -->
+      <div style="margin-top:12px;">
+        <router-link class="btn" to="/">返回首页</router-link>
+      </div>
+    </div>
+
     <div v-else class="tiles-grid">
-      <ImageCard
-        v-for="item in results"
-        :key="item.key + '_' + item.im.file"
-        :src="assetUrl(item.key, item.im.file)"
-        :title="item.im.title || item.im.file"
-      />
+      <article v-for="item in results" :key="item.key + '_' + item.im.file" class="tile">
+        <div class="pic">
+          <img :src="assetUrl(item.key, item.im.file)" :alt="item.im.title || item.im.file" loading="lazy"/>
+          <div class="caption"><div class="name">{{ item.im.title || item.im.file }}</div></div>
+        </div>
+      </article>
     </div>
   </section>
 </template>

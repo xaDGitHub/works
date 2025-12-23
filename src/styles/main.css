@@ -61,7 +61,18 @@ a {
 .control {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;        /* 新增：允许在同一行换不下时换行 */
+  align-items: center;
 }
+
+.input, .select {
+  flex: 1 1 160px;
+  min-width: 0;
+}
+.btn {
+  flex: 0 0 auto;
+}
+
 .input,
 .select,
 .btn {
@@ -83,6 +94,28 @@ a {
 }
 .section {
   padding: 16px 0 32px;
+}
+
+@media (max-width: 640px) {
+  /* 让控制区占满一行，并纵向排列，避免横向挤压 */
+  .control {
+    width: 100%;
+    flex-direction: column;   /* 新增：纵向堆叠 */
+    align-items: stretch;     /* 新增：子项拉伸到全宽 */
+    gap: 10px;
+  }
+  /* 子项全宽显示，便于点击 */
+  .input, .select, .btn {
+    width: 100%;
+  }
+  /* 减小顶部内边距，提升可用空间 */
+  .topbar {
+    padding: 10px 0;
+  }
+  /* 适当缩小标题字号，减少占位 */
+  .title {
+    font-size: 18px;
+  }
 }
 
 /* 首页网格：两列，手机端一列 */
@@ -144,7 +177,7 @@ a {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--muted);
   margin: 12px 0 20px;
 }
