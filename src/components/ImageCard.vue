@@ -1,7 +1,9 @@
 <template>
   <article class="tile" @click="openViewer">
     <div class="pic">
-      <picture>
+      <img :src="src" :alt="title" loading="lazy" />
+
+      <!-- <picture>
         <img
           :src="src"
           :srcset="src"
@@ -11,7 +13,7 @@
           decoding="async"
           fetchpriority="low"
         />
-      </picture>
+      </picture> -->
       <div class="caption">
         <div class="name">{{ title }}</div>
       </div>

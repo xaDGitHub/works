@@ -30,24 +30,24 @@ export const PORTFOLIO: { projects: Record<string, ProjectItem> } = {
       order: 3,
       displayName: 'MUON 电商页面（项目中断）',
       images: [
-        { order: 4, file: 'product-detail-mobile.png', title: '产品详情页-手机端' },
-        { order: 3, file: 'product-detail.png', title: '产品详情页' },
-        { order: 2, file: 'home-mobile.png', title: '首页-手机端' },
-        { order: 1, file: 'home.png', title: '首页' }
+        { order: 4, file: 'product-detail-mobile.jpg', title: '产品详情页-手机端' },
+        { order: 3, file: 'product-detail.jpg', title: '产品详情页' },
+        { order: 2, file: 'home-mobile.jpg', title: '首页-手机端' },
+        { order: 1, file: 'home.jpg', title: '首页' }
       ]
     },
     vanpowers: {
       order: 2,
       displayName: 'VANPOWERS 电商与经销',
       images: [
-        { order: 8, file: 'product-collection.png', title: '产品集合页' },
-        { order: 4, file: 'product-page-mobile.png', title: '产品页-手机端' },
-        { order: 3, file: 'product-page.png', title: '产品页面' },
-        { order: 6, file: 'offline-dealer-page-mobile.png', title: '线下经销商页面-手机端' },
-        { order: 5, file: 'offline-dealer-page.png', title: '线下经销商页面' },
-        { order: 7, file: 'dealer-home.png', title: '经销商首页' },
-        { order: 2, file: 'home-mobile.png', title: '首页-手机端' },
-        { order: 1, file: 'home.png', title: '首页' }
+        { order: 8, file: 'product-collection.jpg', title: '产品集合页' },
+        { order: 4, file: 'product-page-mobile.jpg', title: '产品页-手机端' },
+        { order: 3, file: 'product-page.jpg', title: '产品页面' },
+        { order: 6, file: 'offline-dealer-page-mobile.jpg', title: '线下经销商页面-手机端' },
+        { order: 5, file: 'offline-dealer-page.jpg', title: '线下经销商页面' },
+        { order: 7, file: 'dealer-home.jpg', title: '经销商首页' },
+        { order: 2, file: 'home-mobile.jpg', title: '首页-手机端' },
+        { order: 1, file: 'home.jpg', title: '首页' }
       ]
     }
   }
