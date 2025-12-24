@@ -13,22 +13,22 @@ export const PORTFOLIO: { projects: Record<string, ProjectItem> } = {
       order: 1,
       displayName: '电网与调度场景',
       images: [
-        { order: 7, file: 'integrated-home.png', preview: 'integrated-home_preview.png', title: '一体化首页' },
-        { order: 2, file: 'main-distribution-home.png', preview: 'main-distribution-home_preview.png', title: '主配网首页' },
-        { order: 3, file: 'distributed-pv-home.png', preview: 'distributed-pv-home_preview.png', title: '分布式光伏首页' },
-        { order: 4, file: 'common-charts.png', preview: 'common-charts_preview.png', title: '常见图表' },
-        { order: 5, file: 'orderly-power-usage-home.png', preview: 'orderly-power-usage-home_preview.png', title: '有序用电首页' },
-        { order: 6, file: 'self-healing-evaluation-home.png', preview: 'self-healing-evaluation-home_preview.png', title: '自愈评价首页' },
-        { order: 1, file: 'dispatch-system-home.png', preview: 'dispatch-system-home_preview.png', title: '调度系统首页' }
+        { order: 7, file: 'integrated-home.png', preview: 'integrated-home_preview.jpg', title: '一体化首页' },
+        { order: 2, file: 'main-distribution-home.png', preview: 'main-distribution-home_preview.jpg', title: '主配网首页' },
+        { order: 3, file: 'distributed-pv-home.png', preview: 'distributed-pv-home_preview.jpg', title: '分布式光伏首页' },
+        { order: 4, file: 'common-charts.png', preview: 'common-charts_preview.jpg', title: '常见图表' },
+        { order: 5, file: 'orderly-power-usage-home.png', preview: 'orderly-power-usage-home_preview.jpg', title: '有序用电首页' },
+        { order: 6, file: 'self-healing-evaluation-home.png', preview: 'self-healing-evaluation-home_preview.jpg', title: '自愈评价首页' },
+        { order: 1, file: 'dispatch-system-home.png', preview: 'dispatch-system-home_preview.jpg', title: '调度系统首页' }
       ]
     },
     ipc: {
       order: 4,
       displayName: 'IPC 终端界面(未做完)',
       images: [
-        { order: 3, file: 'list.png', title: '列表' },
-        { order: 2, file: 'data-charts-page.png', title: '数据图表页' },
-        { order: 1, file: 'home.png', title: '首页' }
+        { order: 3, file: 'list.png', preview: 'list_preview.png', title: '列表' },
+        { order: 2, file: 'data-charts-page.png', preview: 'data-charts-page_preview.png', title: '数据图表页' },
+        { order: 1, file: 'home.png', preview: 'home_preview.png', title: '首页' }
       ]
     },
     muon: {
