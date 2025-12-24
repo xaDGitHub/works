@@ -5,7 +5,7 @@
       <span>{{ project.displayName || projectKey }}</span>
       <span class="tag">{{ projectKey }}</span>
     </h2>
-    <div class="thumb">
+    <div class="thumb" @click="goProject">
       <img
         v-if="firstSrc"
         :src="firstSrc"
@@ -16,6 +16,7 @@
       />
     </div>
     <div class="actions">
+      <div class="description">{{ project.description }}</div>
       <button class="btn" @click="goProject">进入项目</button>
     </div>
   </article>

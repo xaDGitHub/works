@@ -4,14 +4,16 @@ export type ImageItem = {
   file: string;
   preview?: string;
   title?: string;
+  
 };
-export type ProjectItem = { order?: number; displayName?: string; images: ImageItem[] };
+export type ProjectItem = { order?: number; displayName?: string; description?: string; images: ImageItem[] };
 
 export const PORTFOLIO: { projects: Record<string, ProjectItem> } = {
   projects: {
     dfdz: {
       order: 1,
-      displayName: '电网与调度场景',
+      displayName: '东方电子电网内部系统',
+      description:"基于VUE2+3,Setup,Element-Ui等技术开发的电网与调度相关页面。(注: 原是不同系统后全合并一体化,图片仅展示部分页面)",
       images: [
         { order: 7, file: 'integrated-home.png', preview: 'integrated-home_preview.jpg', title: '一体化首页' },
         { order: 2, file: 'main-distribution-home.png', preview: 'main-distribution-home_preview.jpg', title: '主配网首页' },
@@ -24,7 +26,8 @@ export const PORTFOLIO: { projects: Record<string, ProjectItem> } = {
     },
     ipc: {
       order: 4,
-      displayName: 'IPC 终端界面(未做完)',
+      displayName: 'IPC 终端界面',
+      description:"基于VUE3,TS,Element-Ui等技术开发的摄像头项目内部的终端数据监控系统,包括首页、数据图表页、列表页等多个页面。（注: 主要负责该系统的搭建以及初步页面开发，后续不参与）",
       images: [
         { order: 3, file: 'list.png', preview: 'list_preview.png', title: '列表' },
         { order: 2, file: 'data-charts-page.png', preview: 'data-charts-page_preview.png', title: '数据图表页' },
@@ -33,7 +36,8 @@ export const PORTFOLIO: { projects: Record<string, ProjectItem> } = {
     },
     muon: {
       order: 3,
-      displayName: 'MUON 电商页面（项目中断）',
+      displayName: 'MUON 电商页面',
+      description:"基于shopify平台的dawn模板,通过liquid等技术开发MUON 欧洲电商网站。（注：因项目不久后将退市,未正式上线,原网站地址：https://muon.bike/）",
       images: [
         { order: 4, file: 'product-detail-mobile.jpg', preview: 'product-detail-mobile_preview.jpg', title: '产品详情页-手机端' },
         { order: 3, file: 'product-detail.jpg', preview: 'product-detail_preview.jpg', title: '产品详情页' },
@@ -44,6 +48,7 @@ export const PORTFOLIO: { projects: Record<string, ProjectItem> } = {
     vanpowers: {
       order: 2,
       displayName: 'VANPOWERS 电商与经销',
+      description:"基于shopify平台通过liquid等技术开发VANPOWERS 北美电商网站。（注:因项目不久后将退市网站可能失效,网站 https://www.vanpowers.com , 访问需外网）",
       images: [
         { order: 8, file: 'product-collection.jpg', preview: 'product-collection_preview.jpg', title: '产品集合页' },
         { order: 4, file: 'product-page-mobile.jpg', preview: 'product-page-mobile_preview.jpg', title: '产品页-手机端' },

@@ -161,6 +161,7 @@ a {
   border-radius: 10px;
   overflow: hidden;
   background: #0b0f1a;
+  cursor: pointer;
 }
 .thumb img {
   width: 100%;
@@ -171,6 +172,19 @@ a {
 .actions {
   display: flex;
   justify-content: flex-end;
+  gap: 10px;
+}
+
+.actions .description{
+  font-size: 12px;
+  color: var(--muted);
+  flex: 1;
+  align-self: center;
+}
+@media (max-width: 640px) {
+  .actions {
+    flex-direction: column;
+  }
 }
 
 /* 面包屑（胶囊） */
