@@ -1,19 +1,13 @@
 <template>
   <article class="tile" @click="openViewer">
     <div class="pic">
-      <img :src="src" :alt="title" loading="lazy" />
-
-      <!-- <picture>
-        <img
-          :src="src"
-          :srcset="src"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 1200px"
-          :alt="title"
-          loading="lazy"
-          decoding="async"
-          fetchpriority="low"
-        />
-      </picture> -->
+      <img
+        :src="src"
+        :alt="title"
+        loading="lazy"
+        decoding="async"
+        fetchpriority="low"
+      />
       <div class="caption">
         <div class="name">{{ title }}</div>
       </div>
@@ -22,8 +16,14 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{ src: string; title: string }>();
+const props = defineProps<{
+  src?: string;
+  title: string;
+  fullSrc: string;
+}>();
+
 function openViewer() {
-  window.__viewerOpen?.(props.src);
+  const target = props.fullSrc || props.src;
+  window.__viewerOpen?.(target);
 }
 </script>

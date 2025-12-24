@@ -5,7 +5,8 @@
       <ImageCard
         v-for="im in sortedImages"
         :key="im.file"
-        :src="assetUrl(projectKey, im.file)"
+        :src="assetUrl(projectKey, im.preview || im.file)"
+        :fullSrc="assetUrl(projectKey, im.file )"
         :title="im.title || im.file"
       />
     </div>

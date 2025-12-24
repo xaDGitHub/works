@@ -6,7 +6,14 @@
       <span class="tag">{{ projectKey }}</span>
     </h2>
     <div class="thumb">
-      <img v-if="firstSrc" :src="firstSrc" :alt="project.displayName || projectKey" loading="lazy" />
+      <img
+        v-if="firstSrc"
+        :src="firstSrc"
+        :alt="project.displayName || projectKey"
+        loading="lazy"
+        decoding="async"
+        fetchpriority="low"
+      />
     </div>
     <div class="actions">
       <button class="btn" @click="goProject">进入项目</button>
@@ -17,15 +24,21 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import type { ProjectItem } from '../data/data';
-import { sortImages, assetUrl } from '../data/data';
+import type { ProjectItem, ImageItem } from '../data/data';
+import { sortImages, imageSrc } from '../data/data';
 
 const props = defineProps<{ projectKey: string; project: ProjectItem }>();
 const router = useRouter();
 
+// 取第一张图片（按 order 排序后取第一个）
+const firstImage = computed<ImageItem | null>(() => {
+  const sorted = sortImages(props.project.images || []);
+  return sorted.length ? sorted[0] : null;
+});
+
+// 优先使用预览图；没有预览图则自动回退到原图
 const firstSrc = computed(() => {
-  const sorted = sortImages(props.project.images);
-  return sorted[0] ? assetUrl(props.projectKey, sorted[0].file) : '';
+  return firstImage.value ? imageSrc(props.projectKey, firstImage.value, 'preview') : '';
 });
 
 function goProject() {
