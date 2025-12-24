@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
-const ZOOM_MAX = 16;        // 最大缩放倍数（原来是 8）
+const ZOOM_MAX = 24;        // 最大缩放倍数（原来是 8）
 const ZOOM_MIN = 0.1;       // 最小缩放倍数
 const ZOOM_STEP_IN = 1.15;  // 每次放大步进
 const ZOOM_STEP_OUT = 0.87; // 每次缩小步进
