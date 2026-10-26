@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#edf3f8">
+  <meta name="description" content="2026 年第三季度方法论复盘：以 AI 研发体系和知识体系建设，让个人经验转化为团队能力。">
+  <title>从个人交付，到团队能力 · 2026 Q3</title>
+  <style>
+    :root {
+      --paper: #edf3f8;
+      --white: #fff;
+      --ink: #17354c;
+      --muted: #50677b;
+      --blue: #245ac0;
+      --teal: #11685e;
+      --teal-soft: #e5f3ee;
+      --line: #cddae5;
+      --orange: #a54b27;
+      --radius: 20px;
+      --body: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+      --display: "Arial", "Microsoft YaHei", "PingFang SC", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 110px; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.75 var(--body); }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+    a { color: inherit; }
+    button, summary { cursor: pointer; }
+    :focus-visible { outline: 3px solid var(--blue); outline-offset: 5px; }
+    [hidden] { display: none !important; }
+    ::selection { background: #c4dcf8; color: var(--ink); }
+    .skip { position: fixed; top: -100px; left: 16px; z-index: 20; background: white; padding: 12px; }
+    .skip:focus { top: 12px; }
+    .topbar { position: sticky; top: 0; z-index: 10; background: #edf3f8; border-bottom: 1px solid var(--line); }
+    .topbar__inner { max-width: 1280px; margin: auto; padding: 12px 32px; display: flex; align-items: center; gap: 28px; }
+    .brand { flex: none; font: 700 14px/1.4 var(--display); letter-spacing: .04em; }
+    .brand span { color: var(--muted); font-weight: 400; }
+    .nav { display: flex; gap: 4px; margin-left: auto; }
+    .nav a { text-decoration: none; padding: 10px 12px; border-radius: 9px; font-size: 13px; white-space: nowrap; transition: color .2s, background .2s; }
+    .nav a:hover, .nav a[aria-current="location"] { background: #dce8f4; color: #184d9f; }
+    .tool { border: 1px solid var(--line); border-radius: 9px; padding: 9px 12px; min-height: 44px; color: var(--ink); background: transparent; white-space: nowrap; font-size: 13px; }
+    .tool:hover, .tool[aria-pressed="true"] { background: var(--white); border-color: #8aa5bc; }
+    .progress { height: 3px; background: var(--line); }
+    .progress__fill { height: 100%; width: 0; background: var(--teal); }
+    main { max-width: 1180px; padding: 0 40px; margin: auto; }
+    section { position: relative; padding: 76px 0; border-bottom: 1px solid var(--line); }
+    .eyebrow { display: flex; align-items: center; gap: 12px; font-size: 12px; font-weight: 700; letter-spacing: .13em; color: var(--teal); margin: 0 0 20px; }
+    .eyebrow::before { content: ""; width: 22px; height: 2px; background: currentColor; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { font-family: var(--display); }
+    h1 { font-size: clamp(38px, 5.3vw, 70px); letter-spacing: -.055em; line-height: 1.25; margin-bottom: 24px; }
+    h2 { font-size: clamp(27px, 3.1vw, 40px); line-height: 1.4; letter-spacing: -.035em; margin-bottom: 18px; }
+    h3 { font-size: 19px; line-height: 1.5; margin-bottom: 12px; }
+    p { margin-bottom: 16px; }
+    .intro { color: var(--muted); max-width: 720px; font-size: 17px; }
+    .accent { color: var(--teal); }
+    .hero { padding-top: 66px; }
+    .hero__grid { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 44px; }
+    .hero__word { color: var(--blue); position: relative; white-space: nowrap; }
+    .hero__word::after { content: ""; position: absolute; bottom: -5px; left: 0; width: 100%; height: 6px; background: #afc9ee; border-radius: 9px; }
+    .hero__meta { color: var(--muted); font-size: 12px; margin-bottom: 30px; letter-spacing: .07em; }
+    .hero__thesis { max-width: 580px; font-size: 18px; }
+    .hero__thesis strong { color: var(--teal); }
+    .fleet { background: #e0eaf4; border: 1px solid #c8d8e8; border-radius: 28px; padding: 24px; }
+    .fleet svg { width: 100%; height: auto; display: block; }
+    .fleet__caption { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--muted); border-top: 1px solid #b9cee1; padding-top: 16px; }
+    .fleet__caption strong { color: var(--ink); }
+    .shift { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+    .shift__item { border-top: 2px solid #9fb2c3; padding-top: 16px; }
+    .shift__item:last-child { border-color: var(--teal); }
+    .shift__label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+    .shift__item p { margin: 0; font-size: 16px; }
+    .section-head { display: flex; justify-content: space-between; gap: 30px; align-items: start; }
+    .section-head__index { font: 400 64px/1.2 var(--display); color: #8da5bb; letter-spacing: -.04em; font-variant-numeric: tabular-nums; padding: .04em .12em; flex: none; }
+    .loop { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 30px; }
+    .loop__step { text-align: left; border: 1px solid var(--line); border-radius: 14px; background: #f7fafd; color: var(--ink); padding: 22px 16px; transition: background .2s, border-color .2s, transform .2s; }
+    .loop__step:hover { transform: translateY(-3px); border-color: #6f9c97; }
+    .loop__step[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: white; }
+    .loop__step b { display: block; font-size: 17px; margin-bottom: 8px; }
+    .loop__step span { font-size: 13px; display: block; }
+    .loop__step small { display: block; font: 12px var(--display); letter-spacing: .1em; opacity: .8; margin-bottom: 20px; white-space: nowrap; }
+    .loop-detail { border-left: 3px solid var(--teal); padding: 5px 0 5px 20px; margin-top: 24px; }
+    .loop-detail p { margin: 0; color: var(--muted); }
+    .loop-note { color: var(--teal); font-size: 13px; margin-top: 16px; }
+    .grid-three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 30px; }
+    .card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; }
+    .card__tag { color: var(--teal); font-size: 12px; font-weight: 700; margin-bottom: 20px; display: block; }
+    .card p { color: var(--muted); font-size: 15px; margin-bottom: 0; }
+    .card__bottom { border-top: 1px solid var(--line); margin-top: 24px; padding-top: 14px; font-size: 13px; color: var(--ink); }
+    .statement { background: var(--teal-soft); border-radius: 14px; padding: 20px 26px; margin-top: 24px; font-size: 16px; }
+    .statement p { margin: 0; }
+    .collaboration { display: grid; grid-template-columns: .85fr 1.2fr; gap: 48px; margin-top: 30px; }
+    .decision { padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); }
+    .decision__label { color: var(--muted); font-size: 12px; margin-bottom: 14px; }
+    .decision__line { font-size: 22px; font-weight: 700; }
+    .decision__arrow { color: var(--teal); margin: 10px 0; font-size: 20px; }
+    .decision p:last-child { margin: 0; font-size: 13px; color: var(--muted); }
+    .support { margin: 0; padding: 0; list-style: none; }
+    .support li { padding: 16px 0; border-bottom: 1px solid var(--line); }
+    .support li:first-child { padding-top: 0; }
+    .support strong { display: block; margin-bottom: 5px; }
+    .support span { color: var(--muted); font-size: 15px; }
+    .asset { position: relative; padding-top: 28px; }
+    .asset__mark { width: 44px; height: 44px; display: grid; place-items: center; background: #eaf0fa; color: #2455a7; border-radius: 12px; margin-bottom: 22px; font-size: 20px; font-weight: 700; }
+    .asset__question { margin-top: 24px; font-size: 13px; color: var(--teal); }
+    .evidence { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
+    .metric { background: white; border-radius: var(--radius); padding: 28px 32px; border: 1px solid var(--line); }
+    .metric__value { color: var(--blue); font: 700 clamp(46px, 6vw, 72px)/1.2 var(--display); letter-spacing: -.06em; margin: 12px 0; }
+    .metric__value small { font-size: 24px; letter-spacing: 0; margin-left: 5px; }
+    .metric__caption { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 13px; color: var(--muted); }
+    .metric__caption strong { color: var(--teal); font-weight: 400; }
+    .bar { height: 7px; border-radius: 20px; background: #e0e9f5; margin: 20px 0 12px; position: relative; }
+    .bar__fill { height: 100%; background: var(--blue); border-radius: inherit; }
+    .bar__target { position: absolute; top: -4px; height: 15px; width: 2px; background: var(--ink); }
+    .evidence-note { font-size: 12px; color: var(--muted); margin-top: 14px; }
+    .gaps { padding: 22px 26px; margin-top: 26px; border: 1px dashed #a5b8c9; border-radius: 14px; }
+    .gaps h3 { font-size: 15px; margin-bottom: 8px; color: var(--orange); }
+    .gaps p { margin: 0; color: var(--muted); font-size: 14px; }
+    .closing { margin-top: 42px; padding: 32px; background: var(--ink); color: white; border-radius: var(--radius); }
+    .closing p { font-size: clamp(21px, 2.6vw, 30px); line-height: 1.6; font-weight: 700; margin-bottom: 12px; letter-spacing: -.02em; }
+    .closing span { color: #c5d9e9; font-size: 14px; }
+    .metaphor { margin-top: 26px; }
+    .metaphor summary { min-height: 44px; padding: 10px 0; font-size: 14px; color: var(--teal); }
+    .metaphor__body { border-left: 2px solid var(--line); padding: 10px 0 0 22px; color: var(--muted); font-size: 14px; }
+    .metaphor__body p:last-child { margin-bottom: 0; }
+    .speaker { margin-top: 26px; padding: 18px 22px; border: 1px dashed #879eb1; border-radius: 12px; color: var(--muted); font-size: 14px; background: #f8fafc; }
+    .speaker strong { color: var(--ink); display: block; margin-bottom: 6px; }
+    .speaker p { margin: 0; }
+    footer { max-width: 1180px; margin: auto; padding: 26px 40px 40px; color: var(--muted); display: flex; justify-content: space-between; gap: 16px; font-size: 12px; }
+    @media screen and (min-width: 1200px) {
+      html { font-size: clamp(16px, min(1.25vw, 2.35vh), 56px); scroll-padding-top: calc(3.75rem + 16px); }
+      body { font-size: 1rem; }
+      main, footer { width: 94%; max-width: 100rem; padding-left: 1.5rem; padding-right: 1.5rem; }
+      .topbar__inner { width: 94%; max-width: 100rem; padding: .5rem 1rem; gap: 1rem; }
+      .brand { font-size: .875rem; }
+      .nav { gap: .2rem; }
+      .nav a, .tool { font-size: .875rem; padding: .45rem .6rem; }
+      section { padding-top: 2rem; padding-bottom: 2rem; }
+      .hero { padding-top: 2rem; }
+      h1 { font-size: 4rem; }
+      h2 { font-size: 2.25rem; }
+      h3 { font-size: 1.1875rem; }
+      p { margin-bottom: 1rem; }
+      .hero__grid { gap: 2rem; }
+      .hero__meta { font-size: .75rem; margin-bottom: 1.25rem; }
+      .hero__thesis { font-size: 1.125rem; max-width: 36rem; }
+      .intro { font-size: 1.0625rem; max-width: 48rem; }
+      .eyebrow { font-size: .75rem; margin-bottom: 1rem; }
+      .fleet { padding: 1.25rem; }
+      .fleet__caption, .shift__label { font-size: .75rem; }
+      .shift { gap: 1.25rem; margin-top: 1.75rem; }
+      .shift__item p, .statement { font-size: 1rem; }
+      .section-head__index { font-size: 4rem; }
+      .loop { gap: .6rem; margin-top: 1.5rem; }
+      .loop__step { padding: 1.1rem .8rem; }
+      .loop__step b { font-size: 1.0625rem; margin-bottom: .4rem; }
+      .loop__step span, .loop-note { font-size: .875rem; }
+      .loop__step small { font-size: .75rem; margin-bottom: 1rem; }
+      .loop-detail { margin-top: 1.25rem; }
+      .grid-three, .evidence { gap: 1rem; margin-top: 1.5rem; }
+      .card { padding: 1.25rem; }
+      .card__tag { font-size: .75rem; margin-bottom: 1rem; }
+      .card p, .support span { font-size: 1rem; }
+      .card__bottom, .asset__question { font-size: .875rem; margin-top: 1.25rem; }
+      .statement { padding: 1rem 1.25rem; margin-top: 1.25rem; }
+      .collaboration { gap: 2.5rem; margin-top: 1.5rem; }
+      .decision { padding: 1.5rem; }
+      .decision__label { font-size: .75rem; }
+      .decision__line { font-size: 1.375rem; }
+      .decision__arrow { font-size: 1.25rem; }
+      .decision p:last-child { font-size: .875rem; }
+      .support li { padding: 1rem 0; }
+      .asset__mark { width: 2.75rem; height: 2.75rem; font-size: 1.25rem; margin-bottom: 1.1rem; }
+      .metric { padding: 1.5rem; }
+      .metric__value { font-size: 4.5rem; }
+      .metric__value small { font-size: 1.5rem; }
+      .metric__caption, .evidence-note { font-size: .75rem; }
+      .gaps { padding: 1rem 1.25rem; }
+      .gaps h3 { font-size: 1rem; }
+      .gaps p { font-size: .875rem; }
+      .closing { padding: 1.5rem; margin-top: 2rem; }
+      .closing p { font-size: 1.75rem; }
+      .closing span, .metaphor summary, .metaphor__body, .speaker { font-size: .875rem; }
+      footer { font-size: .75rem; }
+    }
+    @media (max-width: 1000px) {
+      .topbar__inner { gap: 12px; padding: 10px 24px; flex-wrap: wrap; }
+      .brand { margin-right: auto; }
+      .nav { order: 3; margin: 0; width: 100%; justify-content: space-between; }
+      .nav a { padding: 9px 12px; }
+      html { scroll-padding-top: 145px; }
+      .hero__grid { gap: 24px; }
+      .loop { gap: 8px; }
+      .loop__step { padding: 18px 12px; }
+      .card { padding: 22px; }
+    }
+    @media (max-width: 767px) {
+      main { padding: 0 22px; }
+      section { padding: 48px 0; }
+      .topbar__inner { padding: 9px 16px 7px; gap: 5px; }
+      .brand { font-size: 12px; }
+      .brand span { display: none; }
+      .tool { font-size: 12px; padding: 8px 10px; }
+      .nav { gap: 0; overflow-x: auto; justify-content: flex-start; }
+      .nav a { padding: 11px 12px; font-size: 12px; flex: none; }
+      .hero { padding-top: 40px; }
+      .hero__grid, .collaboration { grid-template-columns: 1fr; gap: 28px; }
+      h1 { font-size: clamp(36px, 8vw, 54px); }
+      .hero__meta { font-size: 11px; margin-bottom: 22px; }
+      .hero__thesis, .intro { font-size: 16px; }
+      .fleet { padding: 18px; border-radius: 20px; max-width: 480px; width: 100%; }
+      .fleet svg { max-height: 260px; }
+      .shift { margin-top: 28px; gap: 16px; }
+      .shift__item p { font-size: 14px; }
+      .section-head { gap: 15px; }
+      .section-head__index { font-size: 42px; }
+      .eyebrow { font-size: 11px; margin-bottom: 14px; }
+      .loop { grid-template-columns: 1fr; }
+      .loop__step { display: grid; grid-template-columns: 30px 100px 1fr; align-items: center; gap: 9px; padding: 17px 14px; }
+      .loop__step small, .loop__step b { margin: 0; }
+      .loop__step b { font-size: 16px; }
+      .loop__step span { font-size: 13px; }
+      .grid-three, .evidence { grid-template-columns: 1fr; gap: 14px; margin-top: 24px; }
+      .card { padding: 24px; }
+      .card__tag { margin-bottom: 14px; }
+      .statement { padding: 18px 20px; font-size: 15px; }
+      .asset__mark { float: right; margin: 0 0 12px 12px; }
+      .asset__question { margin-top: 18px; }
+      .metric { padding: 24px; }
+      .metric__value { font-size: 58px; }
+      .closing { padding: 25px 22px; margin-top: 28px; }
+      footer { padding: 24px 22px 32px; flex-direction: column; gap: 4px; }
+    }
+    @media (max-width: 360px) {
+      main { padding: 0 16px; }
+      .loop__step { grid-template-columns: 24px 90px 1fr; gap: 6px; padding: 15px 10px; }
+      .section-head__index { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+    @media screen {
+      body.is-deck { height: 100vh; height: 100dvh; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; }
+      .is-deck .topbar { position: relative; }
+      .is-deck main { height: 100%; min-height: 0; min-width: 0; overflow: hidden; margin: 0 auto; }
+      .is-deck main > section { height: 100%; overflow-y: auto; overscroll-behavior-y: contain; border: 0; padding-top: clamp(20px, 3vh, 64px); padding-bottom: clamp(20px, 3vh, 64px); }
+      .screen-content { min-height: 100%; display: flex; flex-direction: column; justify-content: center; }
+      .screen-content > * { flex-shrink: 0; }
+      .screen-content > :last-child { margin-bottom: 0; }
+      .is-deck footer { margin: 0 auto; padding-top: 10px; padding-bottom: 10px; display: block; border-top: 1px solid var(--line); }
+      .is-deck .footer-copy { display: none; }
+      .deck-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+      .deck-controls__status { flex: 1; min-width: 0; text-align: center; font-size: max(13px, .75rem); }
+      .deck-controls__hint { display: block; font-size: max(11px, .6rem); color: var(--muted); }
+      .deck-controls .tool { min-width: 80px; }
+      .deck-controls .tool:disabled { cursor: default; opacity: .45; }
+      .summary h2 { font-size: clamp(32px, 3.4vw, 5rem); }
+      .summary .closing { margin-top: 1rem; }
+      .summary .closing p { font-size: clamp(24px, 2.2vw, 3rem); }
+      @media (min-width: 1001px) {
+        .is-deck { line-height: 1.6; }
+        .is-deck main > section { padding-top: clamp(16px, 2vh, 48px); padding-bottom: clamp(16px, 2vh, 48px); }
+        .is-deck .eyebrow { margin-bottom: .5rem; }
+        .is-deck h1 { line-height: 1.15; margin-bottom: .75rem; }
+        .is-deck h2 { line-height: 1.25; margin-bottom: .5rem; }
+        .is-deck h3 { margin-bottom: .5rem; }
+        .is-deck .hero__meta { margin-bottom: .75rem; }
+        .is-deck .fleet svg { max-height: 42vh; }
+        .is-deck .shift { margin-top: 1rem; }
+        .is-deck .grid-three, .is-deck .collaboration, .is-deck .loop { margin-top: 1rem; }
+        .is-deck .card, .is-deck .decision { padding: 1rem; }
+        .is-deck .statement { margin-top: 1rem; padding: .75rem 1rem; }
+        .is-deck .support li { padding: .65rem 0; }
+        .is-deck #evidence .intro, .is-deck .evidence-note { margin-bottom: .5rem; }
+        .is-deck .evidence-note { margin-top: .5rem; }
+        .is-deck .evidence, .is-deck .gaps { margin-top: .75rem; }
+        .is-deck .metric { padding: 1rem; }
+        .is-deck .metric__value { font-size: 4rem; margin: .5rem 0; }
+        .is-deck .bar { margin: .65rem 0 .4rem; }
+        .is-deck .gaps { padding: .75rem 1rem; }
+      }
+      @media (max-width: 767px) {
+        .deck-controls { gap: 8px; }
+        .deck-controls .tool { min-width: 72px; }
+        .deck-controls__hint { display: none; }
+        .deck-controls__status { font-size: 12px; }
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .is-deck section:not([hidden]) .screen-content { animation: screen-enter .22s ease-out; }
+        @keyframes screen-enter { from { opacity: .45; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+      }
+    }
+    @media print {
+      body { background: white; font-size: 11pt; }
+      .topbar, .skip, .speaker, .metaphor { display: none !important; }
+      main { max-width: none; padding: 0; }
+      section { padding: 22px 0; }
+      main > section[hidden] { display: block !important; }
+      .deck-controls { display: none !important; }
+      h1 { font-size: 34pt; }
+      h2 { font-size: 23pt; }
+      .card, .metric, .closing, .fleet, .loop__step { break-inside: avoid; }
+      .grid-three { gap: 12px; }
+      .card { padding: 16px; }
+      .closing { background: white; color: var(--ink); border: 1px solid var(--line); }
+      .closing span { color: var(--muted); }
+      footer { padding: 20px 0; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">跳转到汇报正文</a>
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand">TEAM / 团队能力 <span> · 2026 Q3</span></div>
+      <nav class="nav" aria-label="汇报章节">
+        <a href="#shift" aria-current="location">转变</a>
+        <a href="#method">闭环</a>
+        <a href="#engineering">规范</a>
+        <a href="#ai-system">体系</a>
+        <a href="#collaboration">人的作用</a>
+        <a href="#assets">资产</a>
+        <a href="#evidence">成效</a>
+        <a href="#summary">总结</a>
+      </nav>
+      <button class="tool" id="speaker-toggle" type="button" aria-pressed="false" hidden>讲解提示</button>
+    </div>
+    <div class="progress" aria-hidden="true"><div class="progress__fill"></div></div>
+  </header>
+
+  <main id="main" tabindex="-1" aria-label="季度汇报">
+    <section class="hero" id="shift" aria-labelledby="shift-title">
+      <div class="hero__meta">2026 第三季度 · 方法论复盘 / 效率工程部门</div>
+      <div class="hero__grid">
+        <div>
+          <p class="eyebrow">转变 · 从个人到团队</p>
+          <h1 id="shift-title">从个人交付，<br>到<span class="hero__word">团队</span>能力。</h1>
+          <p class="hero__thesis">让经验不只留在个人手里，<br>而是成为<strong>团队共同的工作方式。</strong></p>
+          <p class="intro">多站点需求并行、团队成员增加，仅靠个人经验难以支撑持续协作。以 AI 研发体系和知识体系建设，为团队提供共同的方法与依据。</p>
+        </div>
+        <div class="fleet">
+          <svg viewBox="0 0 440 310" role="img" aria-labelledby="fleet-title fleet-desc">
+            <title id="fleet-title">从个人垂钓，到团队协同作业</title>
+            <desc id="fleet-desc">三个独立的个人节点，通过共同的方法、规范和知识相互连接，汇成团队能力，而不再只靠一个人兜底。</desc>
+            <defs>
+              <pattern id="fleet-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+                <path d="M24 0H0V24" fill="none" stroke="#c9d8e7" stroke-width=".7"/>
+              </pattern>
+            </defs>
+            <rect width="440" height="310" rx="14" fill="url(#fleet-grid)"/>
+            <g fill="none" stroke="#8aa7c4" stroke-width="1.5">
+              <path d="M85 62C85 150 180 110 220 175"/>
+              <path d="M220 62V175"/>
+              <path d="M355 62C355 150 260 110 220 175"/>
+            </g>
+            <g fill="#f5f9fd" stroke="#8aa7c4">
+              <circle cx="85" cy="52" r="22"/><circle cx="220" cy="52" r="22"/><circle cx="355" cy="52" r="22"/>
+            </g>
+            <g fill="#426784">
+              <circle cx="85" cy="47" r="5"/><path d="M75 62a10 10 0 0 1 20 0Z"/>
+              <circle cx="220" cy="47" r="5"/><path d="M210 62a10 10 0 0 1 20 0Z"/>
+              <circle cx="355" cy="47" r="5"/><path d="M345 62a10 10 0 0 1 20 0Z"/>
+            </g>
+            <g font-family="Microsoft YaHei, PingFang SC, sans-serif" text-anchor="middle">
+              <rect x="43" y="107" width="84" height="32" rx="16" fill="#f6f9fd"/>
+              <rect x="178" y="107" width="84" height="32" rx="16" fill="#f6f9fd"/>
+              <rect x="313" y="107" width="84" height="32" rx="16" fill="#f6f9fd"/>
+              <g fill="#355971" font-size="13"><text x="85" y="128">共同方法</text><text x="220" y="128">共同规范</text><text x="355" y="128">共同知识</text></g>
+              <rect x="103" y="174" width="234" height="85" rx="20" fill="#17354c"/>
+              <text x="220" y="211" fill="white" font-size="28" font-weight="700" letter-spacing="8">团队能力</text>
+              <text x="220" y="239" fill="#c5d9e9" font-size="12">可理解 · 可执行 · 可复用</text>
+            </g>
+            <path d="M50 281Q92 269 134 281T218 281T302 281T386 281" fill="none" stroke="#83a4b9" stroke-width="1.5"/>
+          </svg>
+          <div class="fleet__caption"><span>不再只靠一个人兜底</span><strong>让团队共同接得住</strong></div>
+        </div>
+      </div>
+      <div class="shift">
+        <div class="shift__item"><span class="shift__label">过去的依赖</span><p>靠个人经验，把这次需求做好。</p></div>
+        <div class="shift__item"><span class="shift__label">建设的方向</span><p>靠共同体系，让团队持续做好。</p></div>
+      </div>
+      <aside class="speaker" hidden><strong>开场 · 30 秒</strong><p>本季度，在支持多站点业务交付的同时，我重点关注从个人交付向团队能力的转变：如何让经验不只依赖某个人，而是沉淀为团队共同的方法、工具和规范。后续将从工作流程、执行依据、研发体系和人的职责展开，最后结合实际成效与不足回顾这项建设。</p></aside>
+    </section>
+
+    <section id="method" aria-labelledby="method-title">
+      <div class="section-head">
+        <div><p class="eyebrow">方法 · 团队能力如何形成</p><h2 id="method-title">不只引入工具，<br>更要把团队的工作连成闭环。</h2></div>
+        <span class="section-head__index" aria-hidden="true">02</span>
+      </div>
+      <p class="intro">以统一流程连接需求、开发与验收，再将交付经验回写文档和规范，形成团队持续改进的闭环。</p>
+      <div class="loop" role="group" aria-label="团队工作闭环，选择步骤查看要点">
+        <button class="loop__step" type="button" aria-pressed="true" data-step="0"><small>01 →</small><b>目标对齐</b><span>明确需求、边界与验收</span></button>
+        <button class="loop__step" type="button" aria-pressed="false" data-step="1"><small>02 →</small><b>规范执行</b><span>确认方案后按规范实现</span></button>
+        <button class="loop__step" type="button" aria-pressed="false" data-step="2"><small>03 →</small><b>审查验收</b><span>核对代码质量与业务效果</span></button>
+        <button class="loop__step" type="button" aria-pressed="false" data-step="3"><small>04 →</small><b>知识沉淀</b><span>保留方案与问题处理方法</span></button>
+        <button class="loop__step" type="button" aria-pressed="false" data-step="4"><small>05 ↺</small><b>反馈改进</b><span>更新规范，复用于后续需求</span></button>
+      </div>
+      <div class="loop-detail" role="status" aria-live="polite" aria-atomic="true"><p id="loop-detail">目标对齐：先确认做什么、为什么做、怎样算完成，再用 Spec 保留共识，作为开发与验收的依据。</p></div>
+      <p class="loop-note">交付不是流程的终点，经验需要进入下一轮需求与规范。</p>
+      <aside class="speaker" hidden><strong>方法总览 · 35 秒</strong><p>整体方法是以需求与方案确认为起点，经过规范执行、审查验收，再将经验沉淀到文档和知识库，反向更新下一轮工作方式。后续三页分别说明共同的执行依据、工具提供的支撑，以及人的判断责任，避免将方法、规范与工具混为一谈。</p></aside>
+    </section>
+
+    <section id="engineering" aria-labelledby="engineering-title">
+      <div class="section-head">
+        <div><p class="eyebrow">团队规范 · 共同的执行依据</p><h2 id="engineering-title">让<span class="accent">团队成员与 AI，</span><br>遵循共同的开发约定。</h2></div>
+        <span class="section-head__index" aria-hidden="true">03</span>
+      </div>
+      <div class="grid-three">
+        <article class="card"><span class="card__tag">用 SPEC 对齐目标</span><h3>先说清楚，再开始做</h3><p>明确需求范围、实现方案与验收标准，让开发和审查有共同依据。</p><div class="card__bottom">减少“各自理解、各自实现”</div></article>
+        <article class="card"><span class="card__tag">用规范约束执行</span><h3>把要求放进过程</h3><p>将项目约定、无障碍要求、代码审查和验证融入流程，而非交付后补救。</p><div class="card__bottom">减少“做完才发现不一致”</div></article>
+        <article class="card"><span class="card__tag">用文档承接协作</span><h3>让上下文能被接续</h3><p>保留方案、决策依据与开发说明，支持团队协作、新人上手和后续维护。</p><div class="card__bottom">减少“换个人就重新解释”</div></article>
+      </div>
+      <div class="statement"><p><strong>把个人习惯变成共同约定，让团队成员与 AI 都有一致的执行依据。</strong></p></div>
+      <aside class="speaker" hidden><strong>团队规范 · 40 秒</strong><p>规范层面，Spec 明确单次需求的目标，项目规范定义共性要求，开发文档保留方案依据与维护上下文。无障碍等要求也纳入需求、方案和验证过程，而非事后补充。这些内容同时服务于团队协作和 AI 执行，为后续研发工具提供统一依据。</p></aside>
+    </section>
+
+    <section id="ai-system" aria-labelledby="ai-system-title">
+      <div class="section-head">
+        <div><p class="eyebrow">AI 研发体系 · 从方法到交付支撑</p><h2 id="ai-system-title">不止辅助写代码，<br>更把<span class="accent">开发、审查与交付</span>连起来。</h2></div>
+        <span class="section-head__index" aria-hidden="true">04</span>
+      </div>
+      <div class="grid-three">
+        <article class="card"><span class="card__tag">AI 辅助开发</span><h3>带着共同上下文执行</h3><p>以 Spec、项目规范与开发文档为依据，辅助分析、编码与验证。</p><div class="card__bottom">减少重复劳动与上下文重建</div></article>
+        <article class="card"><span class="card__tag">AI 与自动化代码审查</span><h3>把问题前置到变更阶段</h3><p>结合 AI 审查与 PR 规则检查，输出问题、风险和修改依据。</p><div class="card__bottom">辅助发现问题，不替代质量判断</div></article>
+        <article class="card"><span class="card__tag">GIT / CI/CD 自动化</span><h3>让交付动作可重复</h3><p>衔接版本管理、自动检查与部署流程，减少手工重复操作。</p><div class="card__bottom">按项目配置触发、追踪与回溯</div></article>
+      </div>
+      <div class="statement"><p><strong>Spec 与规范提供依据，AI 与自动化承担执行，Git 留下变更记录。</strong><br>自动化范围以各项目配置为准，不等于所有项目无人审批、自动上线。</p></div>
+      <aside class="speaker" hidden><strong>研发体系 · 55 秒</strong><p>研发体系将前述规范落实到执行：AI 依据共同上下文辅助开发，AI 审查与 PR 规则检查帮助前置发现问题，Git 和 CI/CD 衔接版本、检查与部署。不同项目按实际配置执行，AI 审查与规则检查也各有边界。工具提升执行效率，但方案取舍与结果判断仍由人负责，这也是下一页的重点。</p></aside>
+    </section>
+
+    <section id="collaboration" aria-labelledby="collaboration-title">
+      <div class="section-head">
+        <div><p class="eyebrow">人的作用 · 连接体系与团队</p><h2 id="collaboration-title">把重复执行交给 AI，<br>把<span class="accent">判断与责任</span>留在人手中。</h2></div>
+        <span class="section-head__index" aria-hidden="true">05</span>
+      </div>
+      <div class="collaboration">
+        <div class="decision"><p class="decision__label">SPEC 流程中的人工确认关口</p><div class="decision__line">需求确认 → 方案确认</div><div class="decision__arrow" aria-hidden="true">↓</div><div class="decision__line">确认后，AI 才进入实现</div><p style="margin-top: 20px">未确认先澄清，有分歧先调整；方案输出不等于已获执行授权。</p></div>
+        <ul class="support">
+          <li><strong>定方向：明确目标与边界</strong><span>人判断需求价值、范围与约束，决定哪些该做，而不只是哪些能做。</span></li>
+          <li><strong>作取舍：确认方案与风险</strong><span>AI 提供选项和依据；人确认方案，裁决审查意见，不盲目采纳建议。</span></li>
+          <li><strong>负责任：验收结果与沉淀经验</strong><span>人核对业务效果与质量证据，承担发布责任，并把有效经验回写规则。</span></li>
+        </ul>
+      </div>
+      <div class="statement"><p><strong>人的价值不是替 AI 点确认，而是对方向、取舍与结果负责。</strong></p></div>
+      <aside class="speaker" hidden><strong>人的作用 · 50 秒</strong><p>我们的 Spec 流程先确认需求，再确认方案和任务，确认后 AI 才进入实现。人工确认承担的是业务判断与风险取舍，而非形式审批。自动检查通过不等于业务验收通过，人仍需核对实际效果、承担结果责任，并将有效经验回写文档和规范，连接到下一页的团队资产建设。</p></aside>
+    </section>
+
+    <section id="assets" aria-labelledby="assets-title">
+      <div class="section-head">
+        <div><p class="eyebrow">团队资产 · 经验传承与协作保障</p><h2 id="assets-title">将实践经验转为团队积累，<br>为后续协作提供依据。</h2></div>
+        <span class="section-head__index" aria-hidden="true">06</span>
+      </div>
+      <p class="intro">将交付经验沉淀到知识库与协作流程，持续更新规范；同时通过资源迁移，降低人员变动带来的交接风险。</p>
+      <div class="grid-three">
+        <article class="card asset"><div class="asset__mark" aria-hidden="true">知</div><h3>知识资产</h3><p>开发侧知识库架构、文档迁移、技术方案与新人上手材料。</p><div class="asset__question">新人能否更快找到答案？</div></article>
+        <article class="card asset"><div class="asset__mark" aria-hidden="true">法</div><h3>流程资产</h3><p>将处理经验补充到规范与协作流程，复用于后续需求。</p><div class="asset__question">让交付经验进入下一轮开发</div></article>
+        <article class="card asset"><div class="asset__mark" aria-hidden="true">源</div><h3>协作基础</h3><p>公共账号与相关资源迁移，降低人员变动带来的资产与权限风险。</p><div class="asset__question">资源和权限能否顺利交接？</div></article>
+      </div>
+      <aside class="speaker" hidden><strong>团队资产 · 35 秒</strong><p>本季度，我参与独立站知识库建设，主导开发侧文档架构梳理与迁移，并完成公共账号和资源迁移。知识资产支持经验传承，流程资产将经验转化为后续执行依据，资源管理保障协作交接。交付经验重新进入下一轮需求，才形成前述闭环，而非仅增加文档数量。</p></aside>
+    </section>
+
+    <section id="evidence" aria-labelledby="evidence-title">
+      <div class="section-head">
+        <div><p class="eyebrow">阶段成效 · 用结果验证方法</p><h2 id="evidence-title">效率已见成效，<br><span class="accent">团队</span>资产仍需深化。</h2></div>
+        <span class="section-head__index" aria-hidden="true">07</span>
+      </div>
+      <p class="intro">开发效率超过季度目标；知识库、统一规范与资源迁移，为新人上手和协作交接提供共同依据。</p>
+      <div class="evidence">
+        <article class="metric"><h3>团队 AI 辅助编码／审查覆盖率</h3><div class="metric__value">90%<small>以上</small></div><div class="bar" aria-hidden="true"><div class="bar__fill" style="width: 90%"></div><span class="bar__target" style="left: 80%"></span></div><div class="metric__caption"><span>原定目标 80%</span><strong>覆盖率超出预期</strong></div></article>
+        <article class="metric"><h3>单需求平均开发工时下降</h3><div class="metric__value"><small>约</small>25%</div><div class="bar" aria-hidden="true"><div class="bar__fill" style="width: 83.333%"></div><span class="bar__target" style="left: 66.667%"></span></div><div class="metric__caption"><span>原定目标 20%</span><strong>工时降幅超出预期</strong></div></article>
+      </div>
+      <p class="evidence-note">数据来源：本次季度复盘提供的统计。左图刻度 0–100%，右图刻度 0–30%；深色标记为目标值。效率数据不等同于质量或业务收益证明。</p>
+      <div class="gaps"><h3>仍有差距，不把“开始建设”当作“已经完成”</h3><p>存量代码重构仍需推进 · 可复用资产沉淀不足 · Shopify AI 知识问答体系尚未达到预期</p></div>
+      <aside class="speaker" hidden><strong>效果与不足 · 40 秒</strong><p>AI 辅助编码和审查覆盖率达到 90% 以上，单需求平均工时下降约 25%，超过原定目标。协作方面，知识库、统一规范和资源迁移为新人上手与交接提供了共同依据，但尚未量化其改善幅度。效率指标也不能替代质量和业务收益验证。可复用资产、存量重构与知识问答仍有差距，阶段性提效不等于体系建设已经完成。</p></aside>
+    </section>
+
+    <section class="summary" id="summary" aria-labelledby="summary-title">
+      <p class="eyebrow">本季度 · 推动个人经验向团队能力转化</p>
+      <h2 id="summary-title">把个人经验，<br>变成<span class="accent">团队共同的能力。</span></h2>
+      <div class="closing"><p>不只提升一个人的渔获，<br>更要让团队协同出海，收获更丰、更优。</p><span>共同的航线 · 可靠的工具 · 清晰的规则 · 可传承的经验</span></div>
+      <details class="metaphor"><summary>展开：如何用“团队捕鱼”对外讲清楚这套方法</summary><div class="metaphor__body"><p><strong>鱼竿 → 手册 → 船队 → 智能设备。</strong>从个人经验，到经验传承，再到团队分工与 AI 辅助，改变的不是谁更会钓鱼，而是团队如何一起作业。</p><p><strong>航线是 Spec，网具规格是规范，出海检查与返航验收是质量关口。</strong>AI 可以辅助执行，但不能替代人的方案判断与结果验收。</p><p><strong>航海日志就是知识库。</strong>将作业经验回写手册、更新规则，复用于下一次出海，对应团队工作中的知识沉淀与反馈改进。</p></div></details>
+      <aside class="speaker" hidden><strong>总结 · 15 秒</strong><p>本季度，我推动个人经验向团队共同的方法、工具与知识转化。效率已有改善，协作有了共同依据，经验复用仍需深化。就像从个人垂钓走向协同出海，我们希望通过共同的航线、工具和经验，让团队收获更丰、更优。</p></aside>
+    </section>
+  </main>
+  <footer>
+    <span class="footer-copy">2026 Q3 · 效率工程部门 · 团队能力建设</span>
+    <span class="footer-copy">工具提升个人效率，体系放大团队能力。</span>
+    <div class="deck-controls" hidden>
+      <button class="tool" id="previous-screen" type="button">← 上一屏</button>
+      <div class="deck-controls__status"><span id="screen-status" role="status" aria-live="polite" aria-atomic="true"></span><span class="deck-controls__hint">滚轮 / 上下滑动 / 方向键切换 · 长内容可屏内滚动</span></div>
+      <button class="tool" id="next-screen" type="button">下一屏 →</button>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const steps = Array.from(document.querySelectorAll(".loop__step"));
+      const detail = document.getElementById("loop-detail");
+      const messages = [
+        "目标对齐：先确认做什么、为什么做、怎样算完成，再用 Spec 保留共识，作为开发与验收的依据。",
+        "规范执行：方案确认后，AI 依据项目规范辅助实现，将无障碍等质量要求纳入开发过程。",
+        "审查验收：结合 AI 审查、自动检查与人工判断，核对代码质量和实际业务效果。",
+        "知识沉淀：保留方案依据与问题处理方法，支持团队成员接续维护与经验复用。",
+        "反馈改进：将交付问题与有效做法回写规范和知识库，复用于下一轮需求，持续改进工作方式。"
+      ];
+      steps.forEach((step) => {
+        step.addEventListener("click", () => {
+          steps.forEach((item) => item.setAttribute("aria-pressed", String(item === step)));
+          detail.textContent = messages[Number(step.dataset.step)];
+        });
+      });
+
+      const toggle = document.getElementById("speaker-toggle");
+      const notes = Array.from(document.querySelectorAll(".speaker"));
+      toggle.hidden = false;
+      toggle.addEventListener("click", () => {
+        const show = toggle.getAttribute("aria-pressed") !== "true";
+        toggle.setAttribute("aria-pressed", String(show));
+        notes.forEach((note) => { note.hidden = !show; });
+      });
+
+      const sections = Array.from(document.querySelectorAll("main > section"));
+      const links = Array.from(document.querySelectorAll(".nav a"));
+      const progress = document.querySelector(".progress__fill");
+      const main = document.getElementById("main");
+      const previous = document.getElementById("previous-screen");
+      const next = document.getElementById("next-screen");
+      const status = document.getElementById("screen-status");
+      let activeIndex = 0;
+      sections.forEach((section) => {
+        const content = document.createElement("div");
+        content.className = "screen-content";
+        content.append(...section.childNodes);
+        section.append(content);
+        section.querySelector("h1, h2").setAttribute("tabindex", "-1");
+      });
+      document.body.classList.add("is-deck");
+      document.querySelector(".deck-controls").hidden = false;
+
+      function showScreen(index, updateHash = true, focus = false) {
+        if (index < 0 || index >= sections.length) return;
+        const changed = index !== activeIndex;
+        const focusWasInside = sections[activeIndex].contains(document.activeElement);
+        activeIndex = index;
+        sections.forEach((section, position) => { section.hidden = position !== index; });
+        const active = sections[index];
+        if (changed) active.scrollTop = 0;
+        const activeLink = links.find((link) => link.hash === "#" + active.id);
+        links.forEach((link) => {
+          if (link === activeLink) link.setAttribute("aria-current", "location");
+          else link.removeAttribute("aria-current");
+        });
+        previous.disabled = index === 0;
+        next.disabled = index === sections.length - 1;
+        status.textContent = (index + 1) + " / " + sections.length + " · " + activeLink.textContent;
+        progress.style.width = ((index + 1) / sections.length * 100) + "%";
+        if (updateHash) history.replaceState(null, "", "#" + active.id);
+        const nav = activeLink.parentElement;
+        nav.scrollLeft = activeLink.offsetLeft - nav.offsetLeft - (nav.clientWidth - activeLink.offsetWidth) / 2;
+        if (focus || focusWasInside) active.querySelector("h1, h2").focus({ preventScroll: true });
+      }
+
+      function readHash() {
+        const index = sections.findIndex((section) => "#" + section.id === location.hash);
+        showScreen(index < 0 ? 0 : index, false);
+      }
+      links.forEach((link, index) => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          showScreen(index);
+        });
+      });
+      previous.addEventListener("click", () => showScreen(activeIndex - 1));
+      next.addEventListener("click", () => showScreen(activeIndex + 1));
+      window.addEventListener("hashchange", readHash);
+
+      function canScroll(section, direction) {
+        return direction > 0
+          ? section.scrollTop + section.clientHeight < section.scrollHeight - 2
+          : section.scrollTop > 2;
+      }
+
+      let wheelTimer;
+      let wheelLatched = false;
+      let wheelScrolled = false;
+      let wheelDelta = 0;
+      main.addEventListener("wheel", (event) => {
+        if (event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY) || event.deltaY === 0) return;
+        clearTimeout(wheelTimer);
+        wheelTimer = setTimeout(() => {
+          wheelLatched = false;
+          wheelScrolled = false;
+          wheelDelta = 0;
+        }, 220);
+        if (wheelLatched) {
+          event.preventDefault();
+          return;
+        }
+        const direction = Math.sign(event.deltaY);
+        if (canScroll(sections[activeIndex], direction)) {
+          wheelScrolled = true;
+          return;
+        }
+        event.preventDefault();
+        if (wheelScrolled) return;
+        const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? main.clientHeight : 1;
+        if (Math.sign(wheelDelta) !== direction) wheelDelta = 0;
+        wheelDelta += event.deltaY * unit;
+        if (Math.abs(wheelDelta) < 30) return;
+        wheelLatched = true;
+        showScreen(activeIndex + direction);
+      }, { passive: false });
+
+      let touchStart = null;
+      main.addEventListener("touchstart", (event) => {
+        if (event.touches.length !== 1) {
+          touchStart = null;
+          return;
+        }
+        const touch = event.touches[0];
+        touchStart = {
+          x: touch.clientX, y: touch.clientY, index: activeIndex,
+          atTop: !canScroll(sections[activeIndex], -1),
+          atBottom: !canScroll(sections[activeIndex], 1)
+        };
+      }, { passive: true });
+      main.addEventListener("touchend", (event) => {
+        const start = touchStart;
+        touchStart = null;
+        if (!start || start.index !== activeIndex || event.changedTouches.length !== 1) return;
+        const touch = event.changedTouches[0];
+        const distance = start.y - touch.clientY;
+        if (Math.abs(distance) < 60 || Math.abs(distance) <= Math.abs(start.x - touch.clientX)) return;
+        if ((distance > 0 && start.atBottom) || (distance < 0 && start.atTop)) {
+          showScreen(activeIndex + Math.sign(distance));
+        }
+      }, { passive: true });
+      main.addEventListener("touchcancel", () => { touchStart = null; }, { passive: true });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey ||
+            event.target.closest("button, a, input, textarea, select, summary, [contenteditable]")) return;
+        let destination;
+        if (event.key === "Home") destination = 0;
+        else if (event.key === "End") destination = sections.length - 1;
+        else {
+          const direction = event.key === " " && event.shiftKey ? -1
+            : ["ArrowDown", "ArrowRight", "PageDown", " "].includes(event.key) ? 1
+            : ["ArrowUp", "ArrowLeft", "PageUp"].includes(event.key) ? -1 : 0;
+          if (!direction) return;
+          if (["ArrowDown", "ArrowUp", " "].includes(event.key) && canScroll(sections[activeIndex], direction)) {
+            event.preventDefault();
+            const section = sections[activeIndex];
+            section.scrollBy(0, direction * (event.key === " " ? section.clientHeight * .8 : 48));
+            return;
+          }
+          destination = activeIndex + direction;
+        }
+        event.preventDefault();
+        showScreen(destination, true, true);
+      });
+      readHash();
+    })();
+  </script>
+</body>
+</html>
