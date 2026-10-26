@@ -120,30 +120,24 @@
     .case-gallery__source { margin: .4rem 0 0; font-size: max(12px, .75rem); color: var(--teal); }
     .case-gallery__takeaway { margin: .5rem 0 0; padding: .5rem .75rem; border-radius: 8px; background: var(--teal-soft); font-size: max(14px, .9rem); }
     .case-decisions { margin: 0; padding: 0; list-style: none; }
-    .case-decisions li { padding: .3rem 0; border-bottom: 1px solid var(--line); }
+    .case-decisions li { padding: .6rem 0; border-bottom: 1px solid var(--line); }
     .case-decisions li:first-child { padding-top: 0; }
     .case-decisions h3 { font-size: max(17px, 1.05rem); margin-bottom: .25rem; }
     .case-decisions p { margin: 0; color: var(--muted); font-size: max(14px, .9rem); }
     .case-decisions h3, .case-decisions p { display: inline; }
     .case-decisions h3 { margin-right: .4rem; }
-    .case-step-image { display: block; margin-top: .25rem; width: fit-content; max-width: 100%; background: var(--white); border-radius: 6px; }
-    .case-step-image img { display: block; width: auto; max-width: 100%; height: clamp(112px, 20vh, 440px); object-fit: contain; object-position: left center; }
-    .case-step-image--request { background: #191a1b; }
-    .case-step-image--request img { height: clamp(40px, 7vh, 140px); }
+    .case-shot-trigger { margin-left: .4rem; min-height: 36px; padding: .15rem .4rem; border: 1px solid var(--line); border-radius: 6px; background: var(--white); color: var(--teal); font-size: max(12px, .75rem); vertical-align: baseline; }
+    .case-shot-trigger:hover { background: var(--teal-soft); }
     @media screen and (min-width: 1001px) {
       .case-layout { margin-top: .5rem; }
-      .case-decisions li { padding-top: .1rem; padding-bottom: .1rem; }
       .case-gallery__image img { height: clamp(84px, 22vh, 600px); }
-      .case-step-image img { height: 18vh; }
-      .case-step-image--request img { height: 6vh; }
     }
     @media screen and (min-width: 1001px) and (max-height: 700px) {
       .case-gallery__image img { height: 15vh; }
     }
     @media screen and (min-width: 1001px) and (max-height: 650px) {
       .is-deck main > #forms-case { padding-top: 8px; padding-bottom: 8px; }
-      .case-step-image img { height: 15vh; }
-      .case-step-image--request img { height: 5vh; }
+      .case-decisions li { padding-top: .5rem; padding-bottom: .5rem; }
     }
     @media (max-width: 767px) {
       .system-grid, .case-layout { grid-template-columns: 1fr; }
@@ -512,23 +506,28 @@
             <button type="button" aria-pressed="true" aria-controls="case-image" data-case-image="images/waitlist-form.png" data-case-alt="Waitlist PC 端逐题表单，选项横向排列并显示填写进度" data-case-caption="PC 前台：实际表单。点击图片查看大图。">PC 前台</button>
             <button type="button" aria-pressed="false" aria-controls="case-image" data-case-image="images/forms-preview.png" data-case-alt="PC 端 Shopify Admin 中的 TORRAS Forms 编辑器与桌面草稿预览" data-case-caption="PC 后台：配置与预览，共用已确认的表单定义。">PC 预览</button>
             <button type="button" aria-pressed="false" aria-controls="case-image" data-case-image="images/forms-logic.png" data-case-alt="PC 端 TORRAS Forms 编辑器中的题目列表和条件逻辑工作区" data-case-caption="PC 配置：业务规则转为可复用的活动配置。">PC 配置</button>
+            <button id="case-request-tab" type="button" aria-pressed="false" aria-controls="case-image" data-case-image="images/step-01-request.png" data-case-alt="步骤 01：在 AI 对话中使用项目入口，并输入需求说明" data-case-caption="01 需求输入：使用项目入口，沟通目标与需求。点击图片查看原图。">01 需求</button>
+            <button id="case-spec-tab" type="button" aria-pressed="false" aria-controls="case-image" data-case-image="images/step-02-spec.png" data-case-alt="步骤 02：TORRAS Forms 项目中的需求、Spec、任务与变更记录文档目录" data-case-caption="02 方案文档：需求、Spec、任务与变更记录集中留存。点击图片查看原图。">02 方案</button>
+            <button id="case-review-tab" type="button" aria-pressed="false" aria-controls="case-image" data-case-image="images/step-04-code-review.png" data-case-alt="步骤 04：GitHub Actions 机器人输出代码审查结果与问题级别统计" data-case-caption="04 代码审查：GitHub Actions 输出审查结果。点击图片查看原图。">04 审查</button>
           </div>
           <a class="case-gallery__image" id="case-image-link" href="images/waitlist-form.png" target="_blank" rel="noopener" aria-label="在新标签页查看案例截图大图"><img id="case-image" src="images/waitlist-form.png" width="1440" height="415" alt="Waitlist PC 端逐题表单，选项横向排列并显示填写进度"></a>
           <figcaption id="case-caption" role="status" aria-live="polite">PC 前台：实际表单。点击图片查看大图。</figcaption>
           <p class="case-gallery__source"><a href="https://torraslife.com/pages/waitlist" target="_blank" rel="noopener">查看 Waitlist 实际页面 ↗</a> · 当前界面示例，非季度数据统计</p>
-          <p class="case-gallery__takeaway"><strong>我负责沟通、判断与发布确认，AI 辅助分析、实现与检查，过程和经验留在团队文档中。</strong></p>
+          <p class="case-gallery__takeaway"><strong>沟通、判断与发布确认，AI 辅助分析、实现与检查，过程和经验留在团队文档中。</strong></p>
         </figure>
         <ol class="case-decisions" aria-label="从接到需求到上线沉淀的体系使用流程">
           <li class="case-decisions__brief"><h3>业务需求：</h3><p>做个表单，像谷歌表单一样收集用户信息。</p></li>
-          <li><h3>01 接到需求</h3><p>我沟通目标与边界，AI 整理需求文档。</p>
-            <a class="case-step-image case-step-image--request" href="images/step-01-request.png" target="_blank" rel="noopener" aria-label="放大查看步骤 01 的需求输入截图"><img src="images/step-01-request.png" width="336" height="82" alt="步骤 01：在 AI 对话中使用项目入口，并输入需求说明"></a>
+          <li><h3>01 接到需求</h3><p>沟通目标与边界，AI 整理需求文档。</p>
+            <button class="case-shot-trigger" type="button" data-case-target="case-request-tab" aria-controls="case-image" aria-label="查看截图：步骤 01 需求输入">查看截图</button>
           </li>
-          <li><h3>02 确认方案</h3><p>AI 输出 Spec 与任务，我沟通取舍、确认后执行。</p></li>
-          <li><h3>03 设计开发</h3><p>我确认设计范围，AI 通过 Figma MCP 读稿、按规范实现。</p></li>
-          <li><h3>04 审查验证</h3><p>AI 审查、PR 检查与测试，我核对效果并提出修订。</p>
-            <a class="case-step-image" href="images/step-04-code-review.png" target="_blank" rel="noopener" aria-label="放大查看步骤 04 的代码审查结果截图"><img src="images/step-04-code-review.png" width="931" height="510" alt="步骤 04：GitHub Actions 机器人输出代码审查结果与问题级别统计"></a>
+          <li><h3>02 确认方案</h3><p>AI 输出 Spec 与任务，沟通取舍、确认后执行。</p>
+            <button class="case-shot-trigger" type="button" data-case-target="case-spec-tab" aria-controls="case-image" aria-label="查看截图：步骤 02 方案文档">查看截图</button>
           </li>
-          <li><h3>05 发布回写</h3><p>我确认发布，按项目流程上线；问题与经验回写文档。</p></li>
+          <li><h3>03 设计开发</h3><p>确认设计范围，AI 通过 Figma MCP 读稿、按规范实现。</p></li>
+          <li><h3>04 审查验证</h3><p>AI 审查、PR 检查与测试，核对效果并提出修订。</p>
+            <button class="case-shot-trigger" type="button" data-case-target="case-review-tab" aria-controls="case-image" aria-label="查看截图：步骤 04 代码审查">查看截图</button>
+          </li>
+          <li><h3>05 发布回写</h3><p>确认发布，按项目流程上线；问题与经验回写文档。</p></li>
         </ol>
       </div>
       <aside class="speaker" hidden><strong>表单案例 · 45 秒</strong><p>业务起点只有一句话：像谷歌表单一样收集用户信息。我先沟通目标与边界，让 AI 整理需求，再通过 Spec 确认方案和任务。设计用 Figma MCP 衔接，AI 按项目规范实现，我确认采用范围并反馈效果。随后结合 AI 审查、PR 检查与测试修订问题，经人工发布确认后按项目流程上线，而不是检查一过就自动发布。最后将问题和决策回写文档，供后续协作复用。这一页只说明体系怎么用，不代表本次演示重新完成了全部真店验收。</p></aside>
@@ -611,6 +610,14 @@
           caseImage.alt = button.dataset.caseAlt;
           caseImageLink.href = button.dataset.caseImage;
           caseCaption.textContent = button.dataset.caseCaption;
+        });
+      });
+      document.querySelectorAll("[data-case-target]").forEach((trigger) => {
+        trigger.addEventListener("click", () => {
+          const button = document.getElementById(trigger.dataset.caseTarget);
+          button.click();
+          button.focus({ preventScroll: true });
+          button.scrollIntoView({ block: "nearest", inline: "nearest" });
         });
       });
       const notes = Array.from(document.querySelectorAll(".speaker"));
