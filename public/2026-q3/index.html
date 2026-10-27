@@ -86,6 +86,12 @@
     .loop-detail p { margin: 0; color: var(--muted); }
     .loop-note { color: var(--teal); font-size: 13px; margin-top: 16px; }
     .grid-three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 30px; }
+    .system-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .system-grid .card { padding: 1rem; }
+    .system-grid .card__tag { margin-bottom: .4rem; }
+    @media (min-width: 1200px) {
+      .system-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
     .card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; }
     .card__tag { color: var(--teal); font-size: 12px; font-weight: 700; margin-bottom: 20px; display: block; }
     .card p { color: var(--muted); font-size: 15px; margin-bottom: 0; }
@@ -97,7 +103,45 @@
     .decision__label { color: var(--muted); font-size: 12px; margin-bottom: 14px; }
     .decision__line { font-size: 22px; font-weight: 700; }
     .decision__arrow { color: var(--teal); margin: 10px 0; font-size: 20px; }
+    .decision__flow { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; align-items: center; gap: .25rem; text-align: center; }
+    .decision__flow .decision__arrow { margin: 0; line-height: 1.1; }
     .decision p:last-child { margin: 0; font-size: 13px; color: var(--muted); }
+    .case-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem; align-items: start; }
+    .case-gallery { min-width: 0; margin: 0; padding: 1rem; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); }
+    .case-gallery__tabs { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .6rem; }
+    .case-gallery__tabs button { min-height: 36px; padding: .3rem .6rem; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); font-size: max(12px, .75rem); }
+    .case-gallery__tabs button[aria-pressed="true"] { background: var(--ink); color: var(--white); border-color: var(--ink); }
+    .case-gallery__image { display: block; border-radius: 8px; background: #f6f8fa; }
+    .case-gallery__image img { display: block; width: 100%; height: clamp(140px, 22vh, 600px); object-fit: contain; }
+    @media (min-width: 768px) and (min-height: 800px) {
+      .case-gallery__image img { height: clamp(140px, 30vh, 600px); }
+    }
+    .case-gallery figcaption { margin-top: .6rem; font-size: max(12px, .75rem); color: var(--muted); }
+    .case-gallery__source { margin: .4rem 0 0; font-size: max(12px, .75rem); color: var(--teal); }
+    .case-gallery__takeaway { margin: .5rem 0 0; padding: .5rem .75rem; border-radius: 8px; background: var(--teal-soft); font-size: max(14px, .9rem); }
+    .case-decisions { margin: 0; padding: 0; list-style: none; }
+    .case-decisions li { padding: .6rem 0; border-bottom: 1px solid var(--line); }
+    .case-decisions li:first-child { padding-top: 0; }
+    .case-decisions h3 { font-size: max(17px, 1.05rem); margin-bottom: .25rem; }
+    .case-decisions p { margin: 0; color: var(--muted); font-size: max(14px, .9rem); }
+    .case-decisions h3, .case-decisions p { display: inline; }
+    .case-decisions h3 { margin-right: .4rem; }
+    .case-shot-trigger { margin-left: .4rem; min-height: 36px; padding: .15rem .4rem; border: 1px solid var(--line); border-radius: 6px; background: var(--white); color: var(--teal); font-size: max(12px, .75rem); vertical-align: baseline; }
+    .case-shot-trigger:hover { background: var(--teal-soft); }
+    @media screen and (min-width: 1001px) {
+      .case-layout { margin-top: .5rem; }
+      .case-gallery__image img { height: clamp(84px, 22vh, 600px); }
+    }
+    @media screen and (min-width: 1001px) and (max-height: 700px) {
+      .case-gallery__image img { height: 15vh; }
+    }
+    @media screen and (min-width: 1001px) and (max-height: 650px) {
+      .is-deck main > #forms-case { padding-top: 8px; padding-bottom: 8px; }
+      .case-decisions li { padding-top: .5rem; padding-bottom: .5rem; }
+    }
+    @media (max-width: 767px) {
+      .system-grid, .case-layout { grid-template-columns: 1fr; }
+    }
     .support { margin: 0; padding: 0; list-style: none; }
     .support li { padding: 16px 0; border-bottom: 1px solid var(--line); }
     .support li:first-child { padding-top: 0; }
@@ -319,10 +363,11 @@
       <div class="brand">TEAM / 团队能力 <span> · 2026 Q3</span></div>
       <nav class="nav" aria-label="汇报章节">
         <a href="#shift" aria-current="location">转变</a>
-        <a href="#method">闭环</a>
+        <a href="#method">方法</a>
         <a href="#engineering">规范</a>
         <a href="#ai-system">体系</a>
         <a href="#collaboration">人的作用</a>
+        <a href="#forms-case">案例</a>
         <a href="#assets">资产</a>
         <a href="#evidence">成效</a>
         <a href="#summary">总结</a>
@@ -401,7 +446,7 @@
       </div>
       <div class="loop-detail" role="status" aria-live="polite" aria-atomic="true"><p id="loop-detail">目标对齐：先确认做什么、为什么做、怎样算完成，再用 Spec 保留共识，作为开发与验收的依据。</p></div>
       <p class="loop-note">交付不是流程的终点，经验需要进入下一轮需求与规范。</p>
-      <aside class="speaker" hidden><strong>方法总览 · 35 秒</strong><p>整体方法是以需求与方案确认为起点，经过规范执行、审查验收，再将经验沉淀到文档和知识库，反向更新下一轮工作方式。后续三页分别说明共同的执行依据、工具提供的支撑，以及人的判断责任，避免将方法、规范与工具混为一谈。</p></aside>
+      <aside class="speaker" hidden><strong>方法总览 · 30 秒</strong><p>整体方法是以需求与方案确认为起点，经过规范执行、审查验收，再将经验沉淀到文档和知识库，反向更新下一轮工作方式。后续分别说明执行依据、工具支撑和人的判断，再以表单 App 展示具体取舍。</p></aside>
     </section>
 
     <section id="engineering" aria-labelledby="engineering-title">
@@ -415,21 +460,22 @@
         <article class="card"><span class="card__tag">用文档承接协作</span><h3>让上下文能被接续</h3><p>保留方案、决策依据与开发说明，支持团队协作、新人上手和后续维护。</p><div class="card__bottom">减少“换个人就重新解释”</div></article>
       </div>
       <div class="statement"><p><strong>把个人习惯变成共同约定，让团队成员与 AI 都有一致的执行依据。</strong></p></div>
-      <aside class="speaker" hidden><strong>团队规范 · 40 秒</strong><p>规范层面，Spec 明确单次需求的目标，项目规范定义共性要求，开发文档保留方案依据与维护上下文。无障碍等要求也纳入需求、方案和验证过程，而非事后补充。这些内容同时服务于团队协作和 AI 执行，为后续研发工具提供统一依据。</p></aside>
+      <aside class="speaker" hidden><strong>团队规范 · 35 秒</strong><p>规范层面，Spec 明确单次需求的目标，项目规范定义共性要求，开发文档保留方案依据与维护上下文。无障碍等要求也纳入需求、方案和验证过程，而非事后补充。这些内容同时服务于团队协作和 AI 执行，为后续研发工具提供统一依据。</p></aside>
     </section>
 
     <section id="ai-system" aria-labelledby="ai-system-title">
       <div class="section-head">
-        <div><p class="eyebrow">AI 研发体系 · 从方法到交付支撑</p><h2 id="ai-system-title">不止辅助写代码，<br>更把<span class="accent">开发、审查与交付</span>连起来。</h2></div>
+        <div><p class="eyebrow">AI 研发体系 · 从方法到交付支撑</p><h2 id="ai-system-title">不止辅助写代码，<br>更把<span class="accent">设计、开发与交付</span>连起来。</h2></div>
         <span class="section-head__index" aria-hidden="true">04</span>
       </div>
-      <div class="grid-three">
-        <article class="card"><span class="card__tag">AI 辅助开发</span><h3>带着共同上下文执行</h3><p>以 Spec、项目规范与开发文档为依据，辅助分析、编码与验证。</p><div class="card__bottom">减少重复劳动与上下文重建</div></article>
-        <article class="card"><span class="card__tag">AI 与自动化代码审查</span><h3>把问题前置到变更阶段</h3><p>结合 AI 审查与 PR 规则检查，输出问题、风险和修改依据。</p><div class="card__bottom">辅助发现问题，不替代质量判断</div></article>
-        <article class="card"><span class="card__tag">GIT / CI/CD 自动化</span><h3>让交付动作可重复</h3><p>衔接版本管理、自动检查与部署流程，减少手工重复操作。</p><div class="card__bottom">按项目配置触发、追踪与回溯</div></article>
+      <div class="system-grid">
+        <article class="card"><span class="card__tag">FIGMA MCP / 设计输入</span><h3>连接设计稿与开发上下文</h3><p>读取设计节点、布局与资源，辅助映射组件和配置；设计取舍与还原效果仍由人确认。</p></article>
+        <article class="card"><span class="card__tag">AI 辅助开发</span><h3>带着共同上下文执行</h3><p>依据 Spec、规范与文档辅助分析、编码和验证，减少上下文重建与重复劳动。</p></article>
+        <article class="card"><span class="card__tag">AI 与自动化代码审查</span><h3>把问题前置到变更阶段</h3><p>结合 AI 审查与 PR 规则检查，输出问题与依据；辅助发现风险，不替代质量判断。</p></article>
+        <article class="card"><span class="card__tag">GIT / CI/CD 自动化</span><h3>让交付动作可重复</h3><p>按项目配置衔接版本、自动检查与部署，使变更可追踪、可回溯。</p></article>
       </div>
-      <div class="statement"><p><strong>Spec 与规范提供依据，AI 与自动化承担执行，Git 留下变更记录。</strong><br>自动化范围以各项目配置为准，不等于所有项目无人审批、自动上线。</p></div>
-      <aside class="speaker" hidden><strong>研发体系 · 55 秒</strong><p>研发体系将前述规范落实到执行：AI 依据共同上下文辅助开发，AI 审查与 PR 规则检查帮助前置发现问题，Git 和 CI/CD 衔接版本、检查与部署。不同项目按实际配置执行，AI 审查与规则检查也各有边界。工具提升执行效率，但方案取舍与结果判断仍由人负责，这也是下一页的重点。</p></aside>
+      <div class="statement"><p><strong>Figma MCP 衔接设计，Spec 对齐方案，AI 辅助执行，Git 记录变更。</strong><br>自动化以项目配置为准，不等于无人审批、自动上线。</p></div>
+      <aside class="speaker" hidden><strong>研发体系 · 45 秒</strong><p>研发体系从设计输入开始：通过 Figma MCP 读取节点、布局与资源，辅助将设计转为组件与配置，再由人确认设计采用方式。AI 依据 Spec 与规范辅助实现，AI 审查与 PR 规则检查前置发现问题，Git 和 CI/CD 衔接检查与交付。工具各有边界，不能替代设计验收、方案取舍和发布责任。</p></aside>
     </section>
 
     <section id="collaboration" aria-labelledby="collaboration-title">
@@ -438,7 +484,7 @@
         <span class="section-head__index" aria-hidden="true">05</span>
       </div>
       <div class="collaboration">
-        <div class="decision"><p class="decision__label">SPEC 流程中的人工确认关口</p><div class="decision__line">需求确认 → 方案确认</div><div class="decision__arrow" aria-hidden="true">↓</div><div class="decision__line">确认后，AI 才进入实现</div><p style="margin-top: 20px">未确认先澄清，有分歧先调整；方案输出不等于已获执行授权。</p></div>
+        <div class="decision"><p class="decision__label">SPEC 流程中的人工确认关口</p><div class="decision__flow"><div class="decision__line">需求确认</div><span class="decision__arrow" aria-hidden="true">↓</span><div class="decision__line">方案确认</div><span class="decision__arrow" aria-hidden="true">↓</span><div class="decision__line">确认后，AI 才进入实现</div></div><p style="margin-top: 20px">未确认先澄清，有分歧先调整；方案输出不等于已获执行授权。</p></div>
         <ul class="support">
           <li><strong>定方向：明确目标与边界</strong><span>人判断需求价值、范围与约束，决定哪些该做，而不只是哪些能做。</span></li>
           <li><strong>作取舍：确认方案与风险</strong><span>AI 提供选项和依据；人确认方案，裁决审查意见，不盲目采纳建议。</span></li>
@@ -446,13 +492,51 @@
         </ul>
       </div>
       <div class="statement"><p><strong>人的价值不是替 AI 点确认，而是对方向、取舍与结果负责。</strong></p></div>
-      <aside class="speaker" hidden><strong>人的作用 · 50 秒</strong><p>我们的 Spec 流程先确认需求，再确认方案和任务，确认后 AI 才进入实现。人工确认承担的是业务判断与风险取舍，而非形式审批。自动检查通过不等于业务验收通过，人仍需核对实际效果、承担结果责任，并将有效经验回写文档和规范，连接到下一页的团队资产建设。</p></aside>
+      <aside class="speaker" hidden><strong>人的作用 · 40 秒</strong><p>我们的 Spec 流程先确认需求，再确认方案和任务，确认后 AI 才进入实现。人工确认承担的是业务判断与风险取舍，而非形式审批。自动检查通过不等于业务验收通过。下一页以表单 App 为例，说明人如何确定范围、约束变更并核对实际结果。</p></aside>
+    </section>
+
+    <section id="forms-case" aria-labelledby="forms-case-title">
+      <div class="section-head">
+        <div><p class="eyebrow">实践案例 · TORRAS Forms / Waitlist</p><h2 id="forms-case-title">从一句需求到页面上线，<br>把整套体系<span class="accent">用在实际交付中。</span></h2></div>
+        <span class="section-head__index" aria-hidden="true">06</span>
+      </div>
+      <div class="case-layout">
+        <figure class="case-gallery">
+          <div class="case-gallery__tabs" role="group" aria-label="选择表单案例截图">
+            <button type="button" aria-pressed="true" aria-controls="case-image" data-case-image="images/waitlist-form.png" data-case-alt="Waitlist PC 端逐题表单，选项横向排列并显示填写进度" data-case-caption="PC 前台：实际表单。点击图片查看大图。">PC 前台</button>
+            <button type="button" aria-pressed="false" aria-controls="case-image" data-case-image="images/forms-preview.png" data-case-alt="PC 端 Shopify Admin 中的 TORRAS Forms 编辑器与桌面草稿预览" data-case-caption="PC 后台：配置与预览，共用已确认的表单定义。">PC 预览</button>
+            <button type="button" aria-pressed="false" aria-controls="case-image" data-case-image="images/forms-logic.png" data-case-alt="PC 端 TORRAS Forms 编辑器中的题目列表和条件逻辑工作区" data-case-caption="PC 配置：业务规则转为可复用的活动配置。">PC 配置</button>
+            <button id="case-request-tab" type="button" aria-pressed="false" aria-controls="case-image" data-case-image="images/step-01-request.png" data-case-alt="步骤 01：在 AI 对话中使用项目入口，并输入需求说明" data-case-caption="01 需求输入：使用项目入口，沟通目标与需求。点击图片查看原图。">01 需求</button>
+            <button id="case-spec-tab" type="button" aria-pressed="false" aria-controls="case-image" data-case-image="images/step-02-spec.png" data-case-alt="步骤 02：TORRAS Forms 项目中的需求、Spec、任务与变更记录文档目录" data-case-caption="02 方案文档：需求、Spec、任务与变更记录集中留存。点击图片查看原图。">02 方案</button>
+            <button id="case-review-tab" type="button" aria-pressed="false" aria-controls="case-image" data-case-image="images/step-04-code-review.png" data-case-alt="步骤 04：GitHub Actions 机器人输出代码审查结果与问题级别统计" data-case-caption="04 代码审查：GitHub Actions 输出审查结果。点击图片查看原图。">04 审查</button>
+          </div>
+          <a class="case-gallery__image" id="case-image-link" href="images/waitlist-form.png" target="_blank" rel="noopener" aria-label="在新标签页查看案例截图大图"><img id="case-image" src="images/waitlist-form.png" width="1440" height="415" alt="Waitlist PC 端逐题表单，选项横向排列并显示填写进度"></a>
+          <figcaption id="case-caption" role="status" aria-live="polite">PC 前台：实际表单。点击图片查看大图。</figcaption>
+          <p class="case-gallery__source"><a href="https://torraslife.com/pages/waitlist" target="_blank" rel="noopener">查看 Waitlist 实际页面 ↗</a> · 当前界面示例，非季度数据统计</p>
+          <p class="case-gallery__takeaway"><strong>沟通、判断与发布确认，AI 辅助分析、实现与检查，过程和经验留在团队文档中。</strong></p>
+        </figure>
+        <ol class="case-decisions" aria-label="从接到需求到上线沉淀的体系使用流程">
+          <li class="case-decisions__brief"><h3>业务需求：</h3><p>做个表单，像谷歌表单一样收集用户信息。</p></li>
+          <li><h3>01 接到需求</h3><p>沟通目标与边界，AI 整理需求文档。</p>
+            <button class="case-shot-trigger" type="button" data-case-target="case-request-tab" aria-controls="case-image" aria-label="查看截图：步骤 01 需求输入">查看截图</button>
+          </li>
+          <li><h3>02 确认方案</h3><p>AI 输出 Spec 与任务，沟通取舍、确认后执行。</p>
+            <button class="case-shot-trigger" type="button" data-case-target="case-spec-tab" aria-controls="case-image" aria-label="查看截图：步骤 02 方案文档">查看截图</button>
+          </li>
+          <li><h3>03 设计开发</h3><p>确认设计范围，AI 通过 Figma MCP 读稿、按规范实现。</p></li>
+          <li><h3>04 审查验证</h3><p>AI 审查、PR 检查与测试，核对效果并提出修订。</p>
+            <button class="case-shot-trigger" type="button" data-case-target="case-review-tab" aria-controls="case-image" aria-label="查看截图：步骤 04 代码审查">查看截图</button>
+          </li>
+          <li><h3>05 发布回写</h3><p>确认发布，按项目流程上线；问题与经验回写文档。</p></li>
+        </ol>
+      </div>
+      <aside class="speaker" hidden><strong>表单案例 · 45 秒</strong><p>业务起点只有一句话：像谷歌表单一样收集用户信息。我先沟通目标与边界，让 AI 整理需求，再通过 Spec 确认方案和任务。设计用 Figma MCP 衔接，AI 按项目规范实现，我确认采用范围并反馈效果。随后结合 AI 审查、PR 检查与测试修订问题，经人工发布确认后按项目流程上线，而不是检查一过就自动发布。最后将问题和决策回写文档，供后续协作复用。这一页只说明体系怎么用，不代表本次演示重新完成了全部真店验收。</p></aside>
     </section>
 
     <section id="assets" aria-labelledby="assets-title">
       <div class="section-head">
         <div><p class="eyebrow">团队资产 · 经验传承与协作保障</p><h2 id="assets-title">将实践经验转为团队积累，<br>为后续协作提供依据。</h2></div>
-        <span class="section-head__index" aria-hidden="true">06</span>
+        <span class="section-head__index" aria-hidden="true">07</span>
       </div>
       <p class="intro">将交付经验沉淀到知识库与协作流程，持续更新规范；同时通过资源迁移，降低人员变动带来的交接风险。</p>
       <div class="grid-three">
@@ -460,13 +544,13 @@
         <article class="card asset"><div class="asset__mark" aria-hidden="true">法</div><h3>流程资产</h3><p>将处理经验补充到规范与协作流程，复用于后续需求。</p><div class="asset__question">让交付经验进入下一轮开发</div></article>
         <article class="card asset"><div class="asset__mark" aria-hidden="true">源</div><h3>协作基础</h3><p>公共账号与相关资源迁移，降低人员变动带来的资产与权限风险。</p><div class="asset__question">资源和权限能否顺利交接？</div></article>
       </div>
-      <aside class="speaker" hidden><strong>团队资产 · 35 秒</strong><p>本季度，我参与独立站知识库建设，主导开发侧文档架构梳理与迁移，并完成公共账号和资源迁移。知识资产支持经验传承，流程资产将经验转化为后续执行依据，资源管理保障协作交接。交付经验重新进入下一轮需求，才形成前述闭环，而非仅增加文档数量。</p></aside>
+      <aside class="speaker" hidden><strong>团队资产 · 30 秒</strong><p>本季度，我参与独立站知识库建设，主导开发侧文档架构梳理与迁移，并完成公共账号和资源迁移。知识资产支持经验传承，流程资产将经验转化为后续执行依据，资源管理保障协作交接。交付经验重新进入下一轮需求，才形成前述闭环，而非仅增加文档数量。</p></aside>
     </section>
 
     <section id="evidence" aria-labelledby="evidence-title">
       <div class="section-head">
         <div><p class="eyebrow">阶段成效 · 用结果验证方法</p><h2 id="evidence-title">效率已见成效，<br><span class="accent">团队</span>资产仍需深化。</h2></div>
-        <span class="section-head__index" aria-hidden="true">07</span>
+        <span class="section-head__index" aria-hidden="true">08</span>
       </div>
       <p class="intro">开发效率超过季度目标；知识库、统一规范与资源迁移，为新人上手和协作交接提供共同依据。</p>
       <div class="evidence">
@@ -475,7 +559,7 @@
       </div>
       <p class="evidence-note">数据来源：本次季度复盘提供的统计。左图刻度 0–100%，右图刻度 0–30%；深色标记为目标值。效率数据不等同于质量或业务收益证明。</p>
       <div class="gaps"><h3>仍有差距，不把“开始建设”当作“已经完成”</h3><p>存量代码重构仍需推进 · 可复用资产沉淀不足 · Shopify AI 知识问答体系尚未达到预期</p></div>
-      <aside class="speaker" hidden><strong>效果与不足 · 40 秒</strong><p>AI 辅助编码和审查覆盖率达到 90% 以上，单需求平均工时下降约 25%，超过原定目标。协作方面，知识库、统一规范和资源迁移为新人上手与交接提供了共同依据，但尚未量化其改善幅度。效率指标也不能替代质量和业务收益验证。可复用资产、存量重构与知识问答仍有差距，阶段性提效不等于体系建设已经完成。</p></aside>
+      <aside class="speaker" hidden><strong>效果与不足 · 30 秒</strong><p>AI 辅助编码和审查覆盖率达到 90% 以上，单需求平均工时下降约 25%，超过原定目标。知识库、统一规范和资源迁移为协作提供了依据，但尚未量化其改善幅度。效率指标不能替代质量和业务收益验证。资产复用、存量重构与知识问答仍有差距，体系仍需持续建设。</p></aside>
     </section>
 
     <section class="summary" id="summary" aria-labelledby="summary-title">
@@ -515,6 +599,27 @@
       });
 
       const toggle = document.getElementById("speaker-toggle");
+      const caseButtons = Array.from(document.querySelectorAll("[data-case-image]"));
+      const caseImage = document.getElementById("case-image");
+      const caseImageLink = document.getElementById("case-image-link");
+      const caseCaption = document.getElementById("case-caption");
+      caseButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          caseButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+          caseImage.src = button.dataset.caseImage;
+          caseImage.alt = button.dataset.caseAlt;
+          caseImageLink.href = button.dataset.caseImage;
+          caseCaption.textContent = button.dataset.caseCaption;
+        });
+      });
+      document.querySelectorAll("[data-case-target]").forEach((trigger) => {
+        trigger.addEventListener("click", () => {
+          const button = document.getElementById(trigger.dataset.caseTarget);
+          button.click();
+          button.focus({ preventScroll: true });
+          button.scrollIntoView({ block: "nearest", inline: "nearest" });
+        });
+      });
       const notes = Array.from(document.querySelectorAll(".speaker"));
       toggle.hidden = false;
       toggle.addEventListener("click", () => {
